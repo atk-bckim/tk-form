@@ -17,9 +17,12 @@ You can also install it from the command line:
 code --install-extension tk-form-<version>.vsix
 ```
 
-## User Manual
+## Documentation
 
-See [MANUAL.md](./MANUAL.md) for installation details, creating your first project, Preview, and Export.
+Choose a language in the [documentation index](./docs/index.md):
+
+- [한국어](./docs/ko/index.md)
+- [English](./docs/en/index.md)
 
 ## Feedback and Support
 
