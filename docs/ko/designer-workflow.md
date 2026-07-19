@@ -2,8 +2,8 @@
 title: 디자이너 작업 흐름
 document_type: User Guide
 created: 2026-07-16
-last_updated: 2026-07-16
-version: v1.0
+last_updated: 2026-07-19
+version: v1.1
 status: Published
 tags: [tk-form, workflow, export, preview]
 ---
@@ -66,6 +66,7 @@ Python을 실행하는 작업에는 신뢰된 로컬 작업 영역이 필요합�
 | 문서 | 경로 | 관계 |
 |---|---|---|
 | 시작하기 | [getting-started.md](./getting-started.md) | 설치와 최초 실행 구성을 다룹니다. |
+| 위젯 애니메이션 | [animations.md](./animations.md) | Inspector에서 애니메이션을 구성하고 Preview·Export하는 방법을 다룹니다. |
 | 기술 범위 | [technical-scope.md](./technical-scope.md) | 지원 위젯, 데이터 모델 기능, 한계를 정의합니다. |
 | 문제 해결과 피드백 | [troubleshooting.md](./troubleshooting.md) | 작업 흐름이 실패할 때의 복구 방법을 제공합니다. |
 
@@ -73,4 +74,5 @@ Python을 실행하는 작업에는 신뢰된 로컬 작업 영역이 필요합�
 
 | 버전 | 날짜 | 변경 사항 |
 |---|---|---|
+| v1.1 | 2026-07-19 | v1.3.0 위젯 애니메이션 안내 링크를 추가했습니다. |
 | v1.0 | 2026-07-16 | 공개 문서 저장소용 한국어 작업 흐름 안내를 처음 작성했습니다. |

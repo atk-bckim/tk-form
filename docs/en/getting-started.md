@@ -2,8 +2,8 @@
 title: Getting Started
 document_type: User Guide
 created: 2026-07-16
-last_updated: 2026-07-16
-version: v1.0
+last_updated: 2026-07-19
+version: v1.1
 status: Published
 tags: [tk-form, vscode, tkinter, installation]
 ---
@@ -22,7 +22,7 @@ tags: [tk-form, vscode, tkinter, installation]
 
 ## Overview
 
-TK-Form is a VS Code extension for visually designing Tkinter interfaces. This guide applies to the public **v1.2.1** VSIX release and starts with an example project so you can confirm your local Python runtime before designing your own interface.
+TK-Form is a VS Code extension for visually designing Tkinter interfaces. This guide applies to the public **v1.3.0** VSIX release and starts with an example project so you can confirm your local Python runtime before designing your own interface.
 
 ## Requirements
 
@@ -34,14 +34,14 @@ Opening, editing, and saving `.tkform.json` files remains available in an untrus
 
 ## Install the VSIX
 
-1. Download `tk-form-1.2.1.vsix` from the [v1.2.1 release](https://github.com/atk-bckim/tk-form/releases/tag/v1.2.1), or choose another release that matches your needs.
+1. Download `tk-form-1.3.0.vsix` from the [v1.3.0 release](https://github.com/atk-bckim/tk-form/releases/tag/v1.3.0), or choose another release that matches your needs.
 2. In VS Code, open the Extensions view.
 3. Select **Install from VSIX...** from the `...` menu and choose the downloaded file.
 
 You can also use the command line:
 
 ```bash
-code --install-extension tk-form-1.2.1.vsix
+code --install-extension tk-form-1.3.0.vsix
 ```
 
 VSIX-installed extensions may not auto-update by default. Check the [Releases](https://github.com/atk-bckim/tk-form/releases) page when you want to update.
@@ -71,6 +71,7 @@ If this command fails, select another absolute Python executable in the designer
 | Document | Path | Relationship |
 |---|---|---|
 | Designer Workflow | [designer-workflow.md](./designer-workflow.md) | Explains the day-to-day design and export flow. |
+| Widget Animations | [animations.md](./animations.md) | Covers v1.3.0 presets, triggers, and generated Python APIs. |
 | Technical Scope | [technical-scope.md](./technical-scope.md) | Lists supported features and operating limits. |
 | Troubleshooting and Feedback | [troubleshooting.md](./troubleshooting.md) | Covers common setup failures and issue reports. |
 
@@ -78,4 +79,5 @@ If this command fails, select another absolute Python executable in the designer
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.1 | 2026-07-19 | Updated the install artifact and links for the v1.3.0 animation release. |
 | v1.0 | 2026-07-16 | Initial English guide for the public documentation repository. |

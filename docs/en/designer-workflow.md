@@ -2,8 +2,8 @@
 title: Designer Workflow
 document_type: User Guide
 created: 2026-07-16
-last_updated: 2026-07-16
-version: v1.0
+last_updated: 2026-07-19
+version: v1.1
 status: Published
 tags: [tk-form, workflow, export, preview]
 ---
@@ -66,6 +66,7 @@ Python-backed actions require a trusted local workspace. Explicit export destina
 | Document | Path | Relationship |
 |---|---|---|
 | Getting Started | [getting-started.md](./getting-started.md) | Covers installation and first-run setup. |
+| Widget Animations | [animations.md](./animations.md) | Configures animations in the Inspector and carries them through Preview and Export. |
 | Technical Scope | [technical-scope.md](./technical-scope.md) | Defines supported widgets, data-model features, and limits. |
 | Troubleshooting and Feedback | [troubleshooting.md](./troubleshooting.md) | Provides recovery steps when a workflow action fails. |
 
@@ -73,4 +74,5 @@ Python-backed actions require a trusted local workspace. Explicit export destina
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.1 | 2026-07-19 | Added the v1.3.0 widget-animation guide link. |
 | v1.0 | 2026-07-16 | Initial English workflow guide for the public documentation repository. |

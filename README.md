@@ -24,6 +24,11 @@ Choose a language in the [documentation index](./docs/index.md):
 - [한국어](./docs/ko/index.md)
 - [English](./docs/en/index.md)
 
+TK-Form v1.3.0 animation guides:
+
+- [위젯 애니메이션](./docs/ko/animations.md)
+- [Widget Animations](./docs/en/animations.md)
+
 ## Feedback and Support
 
 Report bugs and suggest features through [Issues](https://github.com/atk-bckim/tk-form/issues). Please include reproduction steps, your VS Code, operating-system, and Python versions, plus the output from `TK-Form: Copy Support Summary`.

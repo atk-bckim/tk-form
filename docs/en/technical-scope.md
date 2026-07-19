@@ -2,8 +2,8 @@
 title: Technical Scope
 document_type: Reference
 created: 2026-07-16
-last_updated: 2026-07-16
-version: v1.0
+last_updated: 2026-07-19
+version: v1.1
 status: Published
 tags: [tk-form, architecture, tkinter, scope]
 ---
@@ -24,7 +24,7 @@ tags: [tk-form, architecture, tkinter, scope]
 
 ## Release Scope
 
-This reference describes the public **TK-Form v1.2.1** VSIX release. It is a visual authoring and code-generation tool for practical Tkinter applications, not a general-purpose IDE or a two-way editor for handwritten Python.
+This reference describes the public **TK-Form v1.3.0** VSIX release. It is a visual authoring and code-generation tool for practical Tkinter applications, not a general-purpose IDE or a two-way editor for handwritten Python.
 
 ## Architecture and Data Flow
 
@@ -32,7 +32,7 @@ This reference describes the public **TK-Form v1.2.1** VSIX release. It is a vis
 |---|---|
 | VS Code integration | TypeScript extension host, a `*.tkform.json` custom editor, extension commands, workspace-trust enforcement, output, Preview process management, and export file access. |
 | Designer webview | React, Vite, Tailwind CSS, Zustand state management, `dnd-kit` interaction support, and CodeMirror Python editing support. |
-| Project format | JSON Schema draft-07 for `*.tkform.json`; new files use schema version 2. |
+| Project format | JSON Schema draft-07 for `*.tkform.json`; new files use schema version 3. |
 | Python engine | Bundled `tkform_engine` package using the Python standard library and Tkinter/ttk for validation, Python generation, and Preview. |
 
 The normal data path is:
@@ -44,11 +44,11 @@ The normal data path is:
                                               └─ generated Python files
 ```
 
-The designer normalizes loaded projects to schema version 2. Files written as version 1 are accepted and migrated when saved.
+The designer normalizes loaded projects to schema version 3. Files written as version 1 or 2 are accepted and migrated when saved.
 
 ## Project Model
 
-A project describes a root window plus widgets, menus, Tk variables, image resources, and non-visual components. Widget IDs are stable internal references; widget names must be valid, unique Python identifiers and become names in generated Python.
+A project describes a root window plus widgets, menus, Tk variables, image resources, non-visual components, and animations. Widget IDs are stable internal references; widget and animation names must be valid, unique Python identifiers and become names in generated Python.
 
 The model supports:
 
@@ -59,13 +59,14 @@ The model supports:
 - `StringVar`, `IntVar`, `DoubleVar`, and `BooleanVar` declarations.
 - Base64 image resources referenced by widget ID.
 - `Timer`, `FileDialog`, `ColorChooser`, and `MessageBox` non-visual components.
+- Widget animations with `slide`, `shake`, `bounce`, `pulse`, and `color` presets and load/click/hover/focus/manual triggers.
 - Canonical Scrollbar bindings through `bindings.command`; legacy `xscrollcommand` and `yscrollcommand` are accepted for compatibility.
 
 For a Scrollbar, horizontal targets are `Text`, `Listbox`, `Entry`, `Treeview`, and `Canvas`; vertical targets are `Text`, `Listbox`, `Treeview`, and `Canvas`.
 
 ## Supported Design Features
 
-The visual editor supports canvas placement, drag and resize, alignment, snapping, zoom, multi-selection, an object tree, property editing, menus, variables, resources, and non-visual components. The project validator checks cross-references, duplicate or reserved names, property compatibility, layout consistency, bindings, payload limits, and event-handler syntax before code generation.
+The visual editor supports canvas placement, drag and resize, alignment, snapping, zoom, multi-selection, an object tree, property editing, menus, variables, resources, non-visual components, and animations. The project validator checks cross-references, duplicate or reserved names, property compatibility, layout consistency, bindings, animation parameters and generated symbols, payload limits, and event-handler syntax before code generation.
 
 The legacy widget `props.command` field accepts a Python function reference only. Put inline Python logic in the Event Editor; when both are present, the Event Editor command takes precedence.
 
@@ -89,6 +90,7 @@ The legacy widget `props.command` field accepts a Python function reference only
 | Resources | 200 |
 | Tk variables | 500 |
 | Non-visual components | 500 |
+| Animations | 500 |
 | Widget and menu nesting | 64 levels |
 
 Python-backed actions require a trusted local workspace. Explicit Export destinations must be absolute paths inside a trusted workspace folder. Preview requires a local Python runtime with Tkinter.
@@ -101,6 +103,8 @@ Python-backed actions require a trusted local workspace. Explicit Export destina
 - The legacy `command` property cannot hold inline Python code; use the Event Editor.
 - `Text` does not support `textvariable`.
 - `Entry` supports horizontal Scrollbar binding only.
+- Spatial animations require widgets that are actually emitted with `place()`. Real `Notebook` tabs, `grid` widgets, `Toplevel`, and pane-managed widgets cannot be targets.
+- Color animations apply only to a `bg` or `fg` property that the target widget safely supports.
 - The product focuses on practical, commonly used single-window forms and internal tools; automated licensing, in-app account management, and broad enterprise self-service are not included.
 
 ## Related Documents
@@ -109,10 +113,12 @@ Python-backed actions require a trusted local workspace. Explicit Export destina
 |---|---|---|
 | Getting Started | [getting-started.md](./getting-started.md) | Installs the release and prepares the runtime. |
 | Designer Workflow | [designer-workflow.md](./designer-workflow.md) | Applies these capabilities during design, Preview, and Export. |
+| Widget Animations | [animations.md](./animations.md) | Covers presets, triggers, generated APIs, and target restrictions. |
 | Troubleshooting and Feedback | [troubleshooting.md](./troubleshooting.md) | Helps diagnose limits and validation failures. |
 
 ## Change History
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.1 | 2026-07-19 | Added the v1.3.0 schema v3 animation capabilities and boundaries. |
 | v1.0 | 2026-07-16 | Initial technical-scope reference for the public documentation repository. |

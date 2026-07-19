@@ -1,16 +1,17 @@
 ---
-last_updated: 2026-07-16
-version: v1.0
+last_updated: 2026-07-19
+version: v1.1
 ---
 
 # TK-Form 문서
 
-> TK-Form for VS Code v1.2.1의 사용자 문서입니다. 공개 VSIX 릴리스의 사용 방법, 지원 범위, 현재 기술적 경계를 설명합니다.
+> TK-Form for VS Code v1.3.0의 사용자 문서입니다. 공개 VSIX 릴리스의 사용 방법, 지원 범위, 현재 기술적 경계를 설명합니다.
 
 ## 사용자 가이드
 
 - [시작하기](./getting-started.md) - VSIX 설치, Python 준비, 첫 프로젝트 생성
 - [디자이너 작업 흐름](./designer-workflow.md) - Tkinter 앱 설계, 검증, 미리보기, 내보내기
+- [위젯 애니메이션](./animations.md) - preset, trigger, Preview, 생성 Python API
 
 ## 참고 자료
 
