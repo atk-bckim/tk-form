@@ -2,8 +2,8 @@
 title: Technical Scope
 document_type: Reference
 created: 2026-07-16
-last_updated: 2026-07-19
-version: v1.1
+last_updated: 2026-07-21
+version: v1.2
 status: Published
 tags: [tk-form, architecture, tkinter, scope]
 ---
@@ -24,7 +24,7 @@ tags: [tk-form, architecture, tkinter, scope]
 
 ## Release Scope
 
-This reference describes the public **TK-Form v1.3.0** VSIX release. It is a visual authoring and code-generation tool for practical Tkinter applications, not a general-purpose IDE or a two-way editor for handwritten Python.
+This reference describes the public **TK-Form v1.3.1** VSIX release. It is a visual authoring and code-generation tool for practical Tkinter applications, not a general-purpose IDE or a two-way editor for handwritten Python.
 
 ## Architecture and Data Flow
 
@@ -66,7 +66,7 @@ For a Scrollbar, horizontal targets are `Text`, `Listbox`, `Entry`, `Treeview`, 
 
 ## Supported Design Features
 
-The visual editor supports canvas placement, drag and resize, alignment, snapping, zoom, multi-selection, an object tree, property editing, menus, variables, resources, non-visual components, and animations. The project validator checks cross-references, duplicate or reserved names, property compatibility, layout consistency, bindings, animation parameters and generated symbols, payload limits, and event-handler syntax before code generation.
+The visual editor supports canvas placement, drag and resize, alignment, snapping, zoom, multi-selection, an object tree, property editing, menus, variables, resources, non-visual components, and animations. Its responsive icon-first command bar provides accessible tooltips and grouped overflow actions; the keyboard-navigable Inspector tabs include diagnostic badges and the Motion editor. The project validator checks cross-references, duplicate or reserved names, property compatibility, layout consistency, bindings, animation parameters and generated symbols, payload limits, and event-handler syntax before code generation.
 
 The legacy widget `props.command` field accepts a Python function reference only. Put inline Python logic in the Event Editor; when both are present, the Event Editor command takes precedence.
 
@@ -120,5 +120,6 @@ Python-backed actions require a trusted local workspace. Explicit Export destina
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.2 | 2026-07-21 | Updated the reference for v1.3.1 and its responsive command and Inspector workflow. |
 | v1.1 | 2026-07-19 | Added the v1.3.0 schema v3 animation capabilities and boundaries. |
 | v1.0 | 2026-07-16 | Initial technical-scope reference for the public documentation repository. |

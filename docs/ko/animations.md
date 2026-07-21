@@ -2,8 +2,8 @@
 title: 위젯 애니메이션
 document_type: User Guide
 created: 2026-07-19
-last_updated: 2026-07-19
-version: v1.0
+last_updated: 2026-07-21
+version: v1.1
 status: Published
 tags: [tk-form, animation, tkinter, preview, export]
 ---
@@ -112,7 +112,7 @@ Event Editor handler 안에서는 해당 export 모드가 제공하는 동일 �
 
 | 문서 | 경로 | 관계 |
 |---|---|---|
-| 시작하기 | [getting-started.md](./getting-started.md) | v1.3.0 설치와 Python 준비를 설명합니다. |
+| 시작하기 | [getting-started.md](./getting-started.md) | v1.3.1 설치와 Python 준비를 설명합니다. |
 | 디자이너 작업 흐름 | [designer-workflow.md](./designer-workflow.md) | Validate, Preview, Export 순서를 설명합니다. |
 | 기술 범위 | [technical-scope.md](./technical-scope.md) | schema v3, 지원 기능과 안전 한도를 정의합니다. |
 | 문제 해결과 피드백 | [troubleshooting.md](./troubleshooting.md) | 런타임 및 진단 문제의 복구 방법을 제공합니다. |
@@ -121,4 +121,5 @@ Event Editor handler 안에서는 해당 export 모드가 제공하는 동일 �
 
 | 버전 | 날짜 | 변경 사항 |
 |---|---|---|
+| v1.1 | 2026-07-21 | 릴리스 참조를 v1.3.1로 갱신했습니다. |
 | v1.0 | 2026-07-19 | TK-Form v1.3.0 위젯 애니메이션 안내를 작성했습니다. |
