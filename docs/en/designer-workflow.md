@@ -2,8 +2,8 @@
 title: Designer Workflow
 document_type: User Guide
 created: 2026-07-16
-last_updated: 2026-07-19
-version: v1.1
+last_updated: 2026-07-21
+version: v1.2
 status: Published
 tags: [tk-form, workflow, export, preview]
 ---
@@ -23,6 +23,8 @@ tags: [tk-form, workflow, export, preview]
 ## Design Surface
 
 The `*.tkform.json` custom editor provides a canvas for Tkinter and ttk widgets, a property inspector, an object tree, and controls for menus, Tk variables, image resources, and non-visual components. Common design actions include drag, resize, align, snap, zoom, multi-selection, and editing properties or event code.
+
+The responsive, icon-first command bar keeps common actions visible and groups secondary actions in overflow menus. Accessible tooltips identify each action. Inspector sections are keyboard-navigable icon tabs, show diagnostic badges, and include the **Motion** tab for widget animations.
 
 The bundled examples are **Login**, **Settings Panel**, and **Data Browser**. Use them as working reference designs rather than templates that must be kept unchanged.
 
@@ -74,5 +76,6 @@ Python-backed actions require a trusted local workspace. Explicit export destina
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.2 | 2026-07-21 | Documented the responsive command bar and keyboard-navigable Inspector tabs in v1.3.1. |
 | v1.1 | 2026-07-19 | Added the v1.3.0 widget-animation guide link. |
 | v1.0 | 2026-07-16 | Initial English workflow guide for the public documentation repository. |

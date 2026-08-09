@@ -2,8 +2,8 @@
 title: Widget Animations
 document_type: User Guide
 created: 2026-07-19
-last_updated: 2026-07-19
-version: v1.0
+last_updated: 2026-07-21
+version: v1.1
 status: Published
 tags: [tk-form, animation, tkinter, preview, export]
 ---
@@ -112,7 +112,7 @@ Inside an Event Editor handler, call the same-named callable provided by that ex
 
 | Document | Path | Relationship |
 |---|---|---|
-| Getting Started | [getting-started.md](./getting-started.md) | Installs v1.3.0 and prepares Python. |
+| Getting Started | [getting-started.md](./getting-started.md) | Installs v1.3.1 and prepares Python. |
 | Designer Workflow | [designer-workflow.md](./designer-workflow.md) | Covers the Validate, Preview, and Export sequence. |
 | Technical Scope | [technical-scope.md](./technical-scope.md) | Defines schema v3, supported features, and safety limits. |
 | Troubleshooting and Feedback | [troubleshooting.md](./troubleshooting.md) | Provides runtime and diagnostic recovery steps. |
@@ -121,4 +121,5 @@ Inside an Event Editor handler, call the same-named callable provided by that ex
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.1 | 2026-07-21 | Updated the release reference for v1.3.1. |
 | v1.0 | 2026-07-19 | Added the TK-Form v1.3.0 widget-animation guide. |

@@ -2,8 +2,8 @@
 title: 시작하기
 document_type: User Guide
 created: 2026-07-16
-last_updated: 2026-07-19
-version: v1.1
+last_updated: 2026-07-21
+version: v1.2
 status: Published
 tags: [tk-form, vscode, tkinter, installation]
 ---
@@ -22,7 +22,7 @@ tags: [tk-form, vscode, tkinter, installation]
 
 ## 개요
 
-TK-Form은 Tkinter 인터페이스를 시각적으로 설계하는 VS Code 확장입니다. 이 안내는 공개 **v1.3.0** VSIX 릴리스를 기준으로 하며, 예제 프로젝트에서 로컬 Python 런타임을 먼저 확인한 뒤 자체 인터페이스를 설계하도록 안내합니다.
+TK-Form은 Tkinter 인터페이스를 시각적으로 설계하는 VS Code 확장입니다. 이 안내는 공개 **v1.3.1** VSIX 릴리스를 기준으로 하며, 예제 프로젝트에서 로컬 Python 런타임을 먼저 확인한 뒤 자체 인터페이스를 설계하도록 안내합니다.
 
 ## 요구 사항
 
@@ -34,14 +34,14 @@ TK-Form은 Tkinter 인터페이스를 시각적으로 설계하는 VS Code 확�
 
 ## VSIX 설치
 
-1. [v1.3.0 릴리스](https://github.com/atk-bckim/tk-form/releases/tag/v1.3.0)에서 `tk-form-1.3.0.vsix`를 내려받거나, 필요한 다른 릴리스를 선택합니다.
+1. [v1.3.1 릴리스](https://github.com/atk-bckim/tk-form/releases/tag/v1.3.1)에서 `tk-form-1.3.1.vsix`를 내려받거나, 필요한 다른 릴리스를 선택합니다.
 2. VS Code에서 Extensions 뷰를 엽니다.
 3. `...` 메뉴의 **Install from VSIX...**를 선택하고 내려받은 파일을 선택합니다.
 
 명령줄에서도 설치할 수 있습니다.
 
 ```bash
-code --install-extension tk-form-1.3.0.vsix
+code --install-extension tk-form-1.3.1.vsix
 ```
 
 VSIX로 설치한 확장은 기본적으로 자동 업데이트되지 않을 수 있습니다. 업데이트가 필요할 때는 [Releases](https://github.com/atk-bckim/tk-form/releases) 페이지를 확인하세요.
@@ -71,7 +71,7 @@ python3 -c "import tkinter; print(tkinter.TkVersion)"
 | 문서 | 경로 | 관계 |
 |---|---|---|
 | 디자이너 작업 흐름 | [designer-workflow.md](./designer-workflow.md) | 일상적인 설계와 내보내기 흐름을 설명합니다. |
-| 위젯 애니메이션 | [animations.md](./animations.md) | v1.3.0의 preset, trigger와 생성 Python API를 설명합니다. |
+| 위젯 애니메이션 | [animations.md](./animations.md) | 현재 preset, trigger와 생성 Python API를 설명합니다. |
 | 기술 범위 | [technical-scope.md](./technical-scope.md) | 지원 기능과 운영 한도를 설명합니다. |
 | 문제 해결과 피드백 | [troubleshooting.md](./troubleshooting.md) | 설정 문제와 이슈 작성 방법을 다룹니다. |
 
@@ -79,5 +79,6 @@ python3 -c "import tkinter; print(tkinter.TkVersion)"
 
 | 버전 | 날짜 | 변경 사항 |
 |---|---|---|
+| v1.2 | 2026-07-21 | 현재 릴리스와 설치 파일을 v1.3.1로 갱신했습니다. |
 | v1.1 | 2026-07-19 | v1.3.0 설치 파일과 애니메이션 안내 링크로 갱신했습니다. |
 | v1.0 | 2026-07-16 | 공개 문서 저장소용 한국어 시작 안내를 처음 작성했습니다. |

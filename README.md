@@ -24,7 +24,7 @@ Choose a language in the [documentation index](./docs/index.md):
 - [한국어](./docs/ko/index.md)
 - [English](./docs/en/index.md)
 
-TK-Form v1.3.0 animation guides:
+TK-Form v1.3.1 documentation:
 
 - [위젯 애니메이션](./docs/ko/animations.md)
 - [Widget Animations](./docs/en/animations.md)

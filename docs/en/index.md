@@ -1,11 +1,11 @@
 ---
-last_updated: 2026-07-19
-version: v1.1
+last_updated: 2026-07-21
+version: v1.2
 ---
 
 # TK-Form Documentation
 
-> User documentation for TK-Form for VS Code v1.3.0. These pages describe the public VSIX release, its supported workflow, and its current technical boundaries.
+> User documentation for TK-Form for VS Code v1.3.1. These pages describe the public VSIX release, its supported workflow, and its current technical boundaries.
 
 ## User Guide
 
