@@ -23,11 +23,12 @@ Choose a language in the [documentation index](./docs/index.md):
 
 - [한국어](./docs/ko/index.md)
 - [English](./docs/en/index.md)
+- [简体中文](./docs/zh/index.md)
 
-TK-Form v1.3.1 documentation:
+TK-Form v1.6.0 documentation:
 
-- [위젯 애니메이션](./docs/ko/animations.md)
-- [Widget Animations](./docs/en/animations.md)
+- [위젯 애니메이션](./docs/ko/animations.md) / [Widget Animations](./docs/en/animations.md) / [部件动画](./docs/zh/animations.md)
+- [ttkbootstrap 프로젝트](./docs/ko/ttkbootstrap.md) / [ttkbootstrap Projects](./docs/en/ttkbootstrap.md) / [ttkbootstrap 项目](./docs/zh/ttkbootstrap.md)
 
 ## Feedback and Support
 

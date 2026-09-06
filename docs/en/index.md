@@ -1,16 +1,17 @@
 ---
-last_updated: 2026-07-21
-version: v1.2
+last_updated: 2026-09-06
+version: v1.3
 ---
 
 # TK-Form Documentation
 
-> User documentation for TK-Form for VS Code v1.3.1. These pages describe the public VSIX release, its supported workflow, and its current technical boundaries.
+> User documentation for TK-Form for VS Code v1.6.0. These pages describe the public VSIX release, its supported workflow, and its current technical boundaries.
 
 ## User Guide
 
 - [Getting Started](./getting-started.md) - Install the VSIX, prepare Python, and create a first project.
 - [Designer Workflow](./designer-workflow.md) - Design, validate, preview, and export a Tkinter application.
+- [ttkbootstrap Projects](./ttkbootstrap.md) - ttkbootstrap themes, bootstyles, provider widgets, and runtime requirements.
 - [Widget Animations](./animations.md) - Configure presets and triggers, preview playback, and use generated Python APIs.
 
 ## Reference
@@ -21,3 +22,4 @@ version: v1.2
 ## Language
 
 - [한국어 문서](../ko/index.md) - Korean documentation with the same structure and scope.
+- [简体中文文档](../zh/index.md) - Simplified Chinese documentation with the same structure and scope.

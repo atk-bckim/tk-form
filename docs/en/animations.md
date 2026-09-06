@@ -2,8 +2,8 @@
 title: Widget Animations
 document_type: User Guide
 created: 2026-07-19
-last_updated: 2026-07-21
-version: v1.1
+last_updated: 2026-09-06
+version: v1.2
 status: Published
 tags: [tk-form, animation, tkinter, preview, export]
 ---
@@ -25,7 +25,7 @@ tags: [tk-form, animation, tkinter, preview, export]
 
 ## Overview
 
-TK-Form v1.3.0 adds declarative widget animations scheduled through Tkinter `after` callbacks. Animations are stored in the project schema v3 `animations` array and participate in the same Validate, Preview, and Function/Class/Split-file Export workflows.
+TK-Form provides declarative widget animations scheduled through Tkinter `after` callbacks (introduced in v1.3.0). Animations are stored in the project file's `animations` array and participate in the same Validate, Preview, and Function/Class/Split-file Export workflows.
 
 Set the target widget's final position and size before creating an animation. Spatial animations require a widget that is actually emitted with `place()` in generated Python.
 
@@ -62,7 +62,7 @@ A project can contain up to 500 animations. New animations default to 300 ms, no
 | `pulse` | `scale`: greater than 0, up to 1,000 | Grows around the widget center and returns to its final size. |
 | `color` | `property`: bg/fg, `to`: `#RGB` or `#RRGGBB` | Interpolates from the current color to the target color. |
 
-`slide`, `shake`, `bounce`, and `pulse` require widgets emitted with `place()`. `color` is available only for classic Tk widgets that safely support the selected `bg` or `fg` property.
+`slide`, `shake`, `bounce`, and `pulse` require widgets emitted with `place()`. `color` is available only for classic Tk widgets that safely support the selected `bg` or `fg` property. ttk themed widgets (ttkbootstrap Button, Label, Entry, Frame, and similar) have no `bg`/`fg` options, so the `color` preset is rejected during validation. Classic Tk widgets such as `Text`, `Canvas`, and `Listbox` remain usable with `color` in ttkbootstrap projects.
 
 ## Triggers and Manual Control
 
@@ -112,14 +112,16 @@ Inside an Event Editor handler, call the same-named callable provided by that ex
 
 | Document | Path | Relationship |
 |---|---|---|
-| Getting Started | [getting-started.md](./getting-started.md) | Installs v1.3.1 and prepares Python. |
+| Getting Started | [getting-started.md](./getting-started.md) | Installs v1.6.0 and prepares Python. |
 | Designer Workflow | [designer-workflow.md](./designer-workflow.md) | Covers the Validate, Preview, and Export sequence. |
-| Technical Scope | [technical-scope.md](./technical-scope.md) | Defines schema v3, supported features, and safety limits. |
+| ttkbootstrap Projects | [ttkbootstrap.md](./ttkbootstrap.md) | Includes animation restrictions in ttkbootstrap projects. |
+| Technical Scope | [technical-scope.md](./technical-scope.md) | Defines the project format, supported features, and safety limits. |
 | Troubleshooting and Feedback | [troubleshooting.md](./troubleshooting.md) | Provides runtime and diagnostic recovery steps. |
 
 ## Change History
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.2 | 2026-09-06 | Added the ttk themed color-preset rejection rule and the ttkbootstrap link for v1.6.0. |
 | v1.1 | 2026-07-21 | Updated the release reference for v1.3.1. |
 | v1.0 | 2026-07-19 | Added the TK-Form v1.3.0 widget-animation guide. |

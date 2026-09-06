@@ -2,8 +2,8 @@
 title: Designer Workflow
 document_type: User Guide
 created: 2026-07-16
-last_updated: 2026-07-21
-version: v1.2
+last_updated: 2026-09-06
+version: v1.3
 status: Published
 tags: [tk-form, workflow, export, preview]
 ---
@@ -14,6 +14,7 @@ tags: [tk-form, workflow, export, preview]
 
 - [Design Surface](#design-surface)
 - [Core Workflow](#core-workflow)
+- [Layout Managers](#layout-managers)
 - [Export Modes](#export-modes)
 - [Python Runtime Configuration](#python-runtime-configuration)
 - [Workspace Trust and File Safety](#workspace-trust-and-file-safety)
@@ -24,9 +25,13 @@ tags: [tk-form, workflow, export, preview]
 
 The `*.tkform.json` custom editor provides a canvas for Tkinter and ttk widgets, a property inspector, an object tree, and controls for menus, Tk variables, image resources, and non-visual components. Common design actions include drag, resize, align, snap, zoom, multi-selection, and editing properties or event code.
 
+Each project selects its UI toolkit. The default is standard Tkinter; setting a project to **ttkbootstrap** enables theme and per-widget bootstyle editing. See [ttkbootstrap Projects](./ttkbootstrap.md) for details.
+
 The responsive, icon-first command bar keeps common actions visible and groups secondary actions in overflow menus. Accessible tooltips identify each action. Inspector sections are keyboard-navigable icon tabs, show diagnostic badges, and include the **Motion** tab for widget animations.
 
-The bundled examples are **Login**, **Settings Panel**, and **Data Browser**. Use them as working reference designs rather than templates that must be kept unchanged.
+The Event Editor's Python code editor offers autocompletion. Names in the current handler scope (widgets, Tk variables, non-visual components, and handler parameters such as `event`, `value`, `result`, and `self`) are suggested as you type, and after a dot (`.`) the editor suggests Tk/ttk methods and attributes that match the widget type. Use `Ctrl+Space` to open the list at any time, and check the one-line **In scope** hint above the editor for the names available in the current handler.
+
+The bundled examples are **Login**, **Settings Panel**, and **Data Browser**, plus the ttkbootstrap examples **Ttkbootstrap Login**, **Ttkbootstrap Widgets**, and **Ttkbootstrap Dialogs**. Use them as working reference designs rather than templates that must be kept unchanged.
 
 ## Core Workflow
 
@@ -35,7 +40,23 @@ The bundled examples are **Login**, **Settings Panel**, and **Data Browser**. Us
 3. **Preview** — Run **TK-Form: Preview Project** to generate and open the interface with the selected local Python runtime. Use **TK-Form: Stop Preview** to terminate an active preview.
 4. **Export** — Run **TK-Form: Export Python** and choose the destination inside the trusted workspace.
 
+The canvas approximates Tk layout, most notably for ttkbootstrap theming and `pack` arrangements. The designer shows a persistent "canvas approximation, preview is final" status notice. Always confirm final sizing and placement with Validate and Preview.
+
 Use **TK-Form: Open Output** to inspect validation, preview, and export messages. **TK-Form: Copy Support Summary** copies a sanitized diagnostic summary for an issue report without project source or event code.
+
+## Layout Managers
+
+Three layout managers are supported: `place`, `grid`, and `pack`.
+
+| Manager | Configuration | Best suited for |
+|---|---|---|
+| `place` | Per-widget x/y coordinates and size | Fixed, pixel-accurate placement |
+| `grid` | Row and column cells | Spreadsheet-like dialogs and forms |
+| `pack` | side/fill/expand/padx/pady/anchor | Flowing toolbars and stacked one-direction layouts |
+
+For `pack`, the Layout tab edits per-widget `packSide` (`top`/`bottom`/`left`/`right`), `packFill`, `packExpand`, `packPadX`, `packPadY`, and `packAnchor`. The canvas approximates pack as a flexible row/column (flexbox), so Preview remains the authoritative rendering. Pack order follows sibling order, so z-order actions are unavailable for packed children.
+
+Children of the same parent must use a single manager, except under `Toplevel`, `PanedWindow`, and `TtkPanedWindow`, where managers may be mixed. Validation flags mixed-manager use elsewhere.
 
 ## Export Modes
 
@@ -68,6 +89,7 @@ Python-backed actions require a trusted local workspace. Explicit export destina
 | Document | Path | Relationship |
 |---|---|---|
 | Getting Started | [getting-started.md](./getting-started.md) | Covers installation and first-run setup. |
+| ttkbootstrap Projects | [ttkbootstrap.md](./ttkbootstrap.md) | Covers ttkbootstrap themes, bootstyles, and provider widgets. |
 | Widget Animations | [animations.md](./animations.md) | Configures animations in the Inspector and carries them through Preview and Export. |
 | Technical Scope | [technical-scope.md](./technical-scope.md) | Defines supported widgets, data-model features, and limits. |
 | Troubleshooting and Feedback | [troubleshooting.md](./troubleshooting.md) | Provides recovery steps when a workflow action fails. |
@@ -76,6 +98,7 @@ Python-backed actions require a trusted local workspace. Explicit export destina
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.3 | 2026-09-06 | Added pack layout, Event Editor autocompletion, canvas-approximation notice, and the ttkbootstrap link for v1.6.0. |
 | v1.2 | 2026-07-21 | Documented the responsive command bar and keyboard-navigable Inspector tabs in v1.3.1. |
 | v1.1 | 2026-07-19 | Added the v1.3.0 widget-animation guide link. |
 | v1.0 | 2026-07-16 | Initial English workflow guide for the public documentation repository. |
