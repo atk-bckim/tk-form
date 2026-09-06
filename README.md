@@ -30,6 +30,18 @@ TK-Form v1.6.0 documentation:
 - [위젯 애니메이션](./docs/ko/animations.md) / [Widget Animations](./docs/en/animations.md) / [部件动画](./docs/zh/animations.md)
 - [ttkbootstrap 프로젝트](./docs/ko/ttkbootstrap.md) / [ttkbootstrap Projects](./docs/en/ttkbootstrap.md) / [ttkbootstrap 项目](./docs/zh/ttkbootstrap.md)
 
+## AI Skill
+
+The [`TKform-skill`](./TKform-skill/) folder ships the `tkform-author` skill for AI coding agents (Codex, Copilot, Cursor, Claude, etc.). It teaches an agent how to write and edit `.tkform.json` project files, bundles the same JSON Schema as the extension, and includes an engine-backed validator script.
+
+Point your agent at this folder to register the skill:
+
+```text
+https://github.com/atk-bckim/tk-form/tree/main/TKform-skill
+```
+
+Inside VS Code you can also use the designer's **AI Skill** toolbar button, which opens the setup guide.
+
 ## Feedback and Support
 
 Report bugs and suggest features through [Issues](https://github.com/atk-bckim/tk-form/issues). Please include reproduction steps, your VS Code, operating-system, and Python versions, plus the output from `TK-Form: Copy Support Summary`.
