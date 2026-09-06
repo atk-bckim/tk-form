@@ -22,12 +22,12 @@ Tk variables (`StringVar`, `IntVar`, `DoubleVar`, `BooleanVar`) are how Tkinter 
 
 ## Referencing from widgets
 
-Two prop keys are tracked as variable references (`widget_spec.py:REFERENCE_PROPS`):
+Two prop keys are tracked as variable references:
 
 | Prop | Used by | Effect |
 |---|---|---|
-| `textvariable` | Entry, Spinbox, OptionMenu | Two-way bind: typing in the widget updates the variable and vice versa. (**Not** Text — see below.) |
-| `variable` | Checkbutton, Radiobutton, Scale, Listbox | Two-way bind of the value/selection. |
+| `textvariable` | Entry, Spinbox, OptionMenu, Floodgauge, DateEntry | Two-way bind: typing in the widget updates the variable and vice versa. (**Not** Text — see below.) |
+| `variable` | Checkbutton, Radiobutton, Scale, Listbox, LabeledScale, Meter, Floodgauge | Two-way bind of the value/selection. |
 
 ### Example (settings panel pattern)
 

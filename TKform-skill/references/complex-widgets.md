@@ -103,10 +103,11 @@ A Scrollbar drives another widget's scrolling. The wiring is **declarative via `
 }
 ```
 
-Rules (`project_validation.py:215-230`):
+Rules (`scroll_bindings.py`):
 - `bindings.command` must reference an existing widget id.
-- The target must be a scrollable type: **Text, Listbox, Entry, Treeview**.
+- The target must be a scrollable type: **Text, Listbox, Entry, Treeview, Canvas**.
 - A Scrollbar bound to an **Entry** must have `orient: "horizontal"` (`invalid_scrollbar_entry_orientation`).
+- Two scrollbars claiming the same target on conflicting axes → `conflicting_scrollbar_binding`.
 - For the reverse direction (widget → scrollbar), `bindings.xscrollcommand` / `bindings.yscrollcommand` on the *scrolled* widget can point back at a Scrollbar id — but in practice the engine emits the wiring from the Scrollbar side alone.
 
 ### Scroll wiring example (Text + vertical Scrollbar)

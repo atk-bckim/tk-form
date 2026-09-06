@@ -52,7 +52,7 @@ Field reference (array form):
 | `id` | no | Stable unique id. Auto-generated if missing. |
 | `event` | yes | Event name — see table below. |
 | `kind` | derived | `"command"` if `event` is `"command"`, else `"bind"`. You can omit it. |
-| `handlerName` | no | Python method name. Must be a valid identifier and unique across ALL enabled handlers project-wide. If omitted, an anonymous handler is generated. |
+| `handlerName` | no | Python method name. Must be a valid identifier (Unicode letters allowed per PEP 3131, e.g. `保存设置` or `저장하기`; must be NFKC-stable and not a keyword) and unique across ALL enabled handlers project-wide. If omitted, an anonymous handler is generated. |
 | `code` | no (but recommended) | Python body. Must compile (`def h(event=None): <code>`). Empty code on an enabled handler = `empty_event_handler`. |
 | `enabled` | no | Default `true`. Disabled handlers are skipped at codegen. |
 
@@ -98,12 +98,14 @@ If a widget has **both** `props.command` and an enabled `events.command`, the ev
 
 If you don't need a stable method name, omit `handlerName` and let codegen produce an anonymous handler.
 
-## Code can reference widgets and Tk variables by bare name
+## Code can reference widgets, Tk variables, and components by bare name
 
-Inside `code`, **both widgets and Tk variables are in scope as plain Python names** (no `self.` prefix needed). The codegen guarantees this in every export mode:
+Inside `code`, **widgets, Tk variables, and non-visual components are in scope as plain Python names** (no `self.` prefix needed). The codegen guarantees this in every export mode:
 
 - **Function export**: widgets and variables are local variables in `create_window()`, and your handler is a nested function that closes over them.
 - **Class export**: the handler is a method, but the codegen prepends alias lines (`send_entry = self.send_entry`, `filter_var = self.filter_var`, ...) at the top of the method body, so the rest of your code can use bare names too.
+
+So you can reference any widget by its `name`, any declared Tk variable by its `name`, any non-visual component by its `name`, and any `manual` animation through its generated `start_<name>()` / `stop_<name>()` API (see animations.md):
 
 So you can reference any widget by its `name`, and any declared Tk variable by its `name`, directly:
 

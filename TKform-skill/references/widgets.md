@@ -2,23 +2,25 @@
 
 Every entry in `widgets[]` becomes a Tkinter widget in the generated Python. This file is the **authoritative allow-list of which `props` keys each widget type accepts**.
 
-Source of truth: `python/tkform_engine/widget_spec.py` (`WIDGET_ALLOWED_PROPS`).
+Source of truth: `schema/widget-catalog.json` (consumed by `python/tkform_engine/widget_spec.py` and the designer palette).
 
 ## Universal widget fields (outside `props`)
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
 | `id` | string | yes | Unique. Target of `parentId` / `bindings.command`. |
-| `type` | enum (25) | yes | See table below. |
-| `name` | Python identifier | yes | Becomes `self.<name>` in generated code. Unique across widgets. |
+| `type` | enum (32) | yes | See table below. Seven types are ttkbootstrap-only. |
+| `name` | Python identifier (ASCII) | yes | Becomes `self.<name>` in generated code. Unique across widgets. |
 | `parentId` | string \| null | no | Must reference a container (see Containers). null = child of root window. |
-| `x`, `y` | number | no | Position. Under `place`: **relative to the parent container's top-left** (or the root window if `parentId` is null) — standard Tkinter `place` semantics, NOT absolute-to-canvas. Under `grid`: design hint only, ignored at codegen. |
+| `x`, `y` | number | no | Position. Under `place`: **relative to the parent container's top-left** (or the root window if `parentId` is null) — standard Tkinter `place` semantics, NOT absolute-to-canvas. Under `grid`/`pack`: design hint only, ignored at codegen. |
 | `width`, `height` | integer ≥1 | no | **Layout** sizing in pixels under `place` (defaults 100 × 32). Note this is distinct from `props.width` / `props.height` (Tkinter's type-specific units — character columns for Entry, character columns × rows for Text, etc.). A widget can have both: e.g. `{ "width": 130, "height": 24, "props": { "width": 20 } }` means 130×24 px placed, with Entry content sized to 20 chars. |
 | `props` | object | no | Tkinter options. Per-type allow-list below. |
+| `toolkitProps` | object | no | Per-toolkit visual options: `{ "tkinter": {...}, "ttkbootstrap": { "bootstyle"?, "icon"?, "iconSize"?, "iconOnly"? } }`. Both bags may be present; only the active toolkit's is used. See ttkbootstrap.md. |
 | `events` | object \| array | no | See events.md. |
 | `bindings` | object | no | Scroll wiring (see complex-widgets.md). |
-| `layoutManager` | `"place"` \| `"grid"` | no | Default `place`. See layout.md. |
-| `grid*` (Row/Col/RowSpan/ColSpan/Sticky/PadX/PadY/IPadX/IPadY) | number/string | no | Only meaningful under `grid`. |
+| `layoutManager` | `"place"` \| `"grid"` \| `"pack"` | no | Default `place`. See layout.md. |
+| `grid*` (Row/Col/RowSpan/ColSpan/Sticky/PadX/PadY/IPadX/IPadY/RowWeight/ColWeight) | number/string | no | Only meaningful under `grid`. |
+| `pack*` (Side/Fill/Expand/PadX/PadY/Anchor) | string/number/boolean | no | Only meaningful under `pack`. Defaults: `top`/`none`/`false`. |
 | `locked`, `designer` | – | no | Designer-only; no effect on generated code. |
 
 ## Critical prop rules (read first)
@@ -26,14 +28,15 @@ Source of truth: `python/tkform_engine/widget_spec.py` (`WIDGET_ALLOWED_PROPS`).
 1. **`props.command` must be a Python identifier reference** (e.g. `"self.on_click"` or `"on_click"`). Putting inline code like `"print(1)"` here is a validation error (`invalid_command_reference`). For inline code, use `events.command` instead. See events.md.
 2. **`props.variable` / `props.textvariable`** must name a variable declared in `variables[]`. Engine emits `missing_variable_reference` otherwise. Exception: **Text** widgets cannot use `textvariable`/`variable` at all (`WIDGET_UNSUPPORTED_PROPS`).
 3. **`props.image`** must reference a resource id in `resources[]`. Engine emits `missing_image_resource` otherwise.
-4. **ttk widgets** (marked 🟦 below) **cannot use** `bg`, `fg`, `padx`, `pady`, `compound`, `underline`, `disabledforeground`, `highlightthickness`, `selectbackground`, `insertbackground`, `undo`, `wrap`, `tabs`, `spacing1/2/3`. They are silently dropped or rejected depending on the widget. The props ttk widgets *can* use are the non-tk-styling ones in their row of the table below (e.g. a Combobox accepts `values`, `value`, `state`, `width`; a Treeview accepts `columns`, `rows`, etc.). When in doubt, run the validator. If the user asks to color/style a ttk widget, tell them ttk widgets are themed via `tkTheme`, not direct bg/fg props.
-5. **`bg` does not inherit.** `rootBg` colors only the root window; child widgets use Tkinter's default background unless you set `bg` on each non-ttk child explicitly. (ttk children get their background from the active `tkTheme`.) If the user wants a uniform background, set `bg` on every relevant non-ttk widget to match `rootBg`.
-6. **`font` format.** Accepts a Tkinter font spec. Two string forms work: a space-separated string (`"TkDefaultFont 14 bold"`, `"Helvetica 10"`) — case-insensitive modifiers `bold`/`italic`/`underline`/`overstrike` may trail; or a Python-tuple literal string (`"(\"Helvetica\", 10, \"bold\")"`). Named fonts like `"TkDefaultFont"` are also valid. ttk widgets generally accept `font` (e.g. Combobox, Treeview headings) — the per-type table marks it where supported.
-7. **Numeric-looking values must still be strings.** `values` on Combobox/OptionMenu/Spinbox, `items` on Listbox, `columns`/`columnWidths` on Treeview are all normalized to `string[]`. Pass numbers as strings (`["9600", "19200"]`, not `[9600, 19200]`) — the engine stringifies them anyway, but explicit strings avoid surprises and match the examples. The same applies to a Combobox's default `value`.
+4. **ttk widgets** (marked 🟦 below) **cannot use** `bg`, `fg`, `padx`, `pady`, `compound`, `underline`, `disabledforeground`, `highlightthickness`, `selectbackground`, `insertbackground`, `undo`, `wrap`, `tabs`, `spacing1/2/3`. They are silently dropped or rejected depending on the widget. The props ttk widgets *can* use are the non-tk-styling ones in their row of the table below (e.g. a Combobox accepts `values`, `value`, `state`, `width`; a Treeview accepts `columns`, `rows`, etc.). When in doubt, run the validator. If the user asks to color/style a ttk widget, tell them ttk widgets are themed via `toolkit.theme` (and ttkbootstrap `bootstyle`), not direct bg/fg props.
+5. **ttkbootstrap-only widgets** (marked 🟧 below) **require `toolkit.name: "ttkbootstrap"`** in the project. Using them in a tkinter project fails validation. Under ttkbootstrap, the Inspector/codegen follows each widget's real backend: classic tk fallback widgets (Text, Canvas, Listbox, PanedWindow, Message) keep their tk style props even in ttkbootstrap projects.
+6. **`bg` does not inherit.** `rootBg` colors only the root window; child widgets use Tkinter's default background unless you set `bg` on each non-ttk child explicitly. (ttk children get their background from the active theme.) If the user wants a uniform background, set `bg` on every relevant non-ttk widget to match `rootBg`.
+7. **`font` format.** Accepts a Tkinter font spec. Two string forms work: a space-separated string (`"TkDefaultFont 14 bold"`, `"Helvetica 10"`) — case-insensitive modifiers `bold`/`italic`/`underline`/`overstrike` may trail; or a Python-tuple literal string (`"(\"Helvetica\", 10, \"bold\")"`). Named fonts like `"TkDefaultFont"` are also valid. ttk widgets generally accept `font` (e.g. Combobox, Treeview headings) — the per-type table marks it where supported.
+8. **Numeric-looking values must still be strings.** `values` on Combobox/OptionMenu/Spinbox, `items` on Listbox, `columns`/`columnWidths` on Treeview are all normalized to `string[]`. Pass numbers as strings (`["9600", "19200"]`, not `[9600, 19200]`) — the engine stringifies them anyway, but explicit strings avoid surprises and match the examples. The same applies to a Combobox's default `value`.
 
-## The 25 widget types
+## The 32 widget types
 
-🟦 = ttk widget (themed; cannot use bg/fg/padx/pady). 📦 = container (can be a `parentId`). 🔄 = scrollable (can be the target of a Scrollbar `bindings.command`).
+🟦 = ttk widget (themed; cannot use bg/fg/padx/pady). 🟧 = ttkbootstrap-only (requires `toolkit.name: "ttkbootstrap"`). 📦 = container (can be a `parentId`). 🔄 = scrollable (can be the target of a Scrollbar `bindings.command`).
 
 | Type | Cat | Common use | Notable props |
 |---|---|---|---|
@@ -47,7 +50,7 @@ Source of truth: `python/tkform_engine/widget_spec.py` (`WIDGET_ALLOWED_PROPS`).
 | `Scale` |  | Numeric slider | `from_`, `to`, `orient` (`"horizontal"`/`"vertical"`), `length`, `variable`, `command` (ref only) |
 | `Frame` | 📦 | Plain container | `bg`, `relief`, `bd`, `width`, `height`, `highlightthickness` |
 | `LabelFrame` | 📦 | Labeled container | `text`, `bg`, `relief`, `bd`, `highlightthickness` |
-| `Canvas` | 📦 | Drawing surface | `bg`, `scrollregion`, `highlightthickness`, `width`, `height` |
+| `Canvas` | 📦🔄 | Drawing surface | `bg`, `scrollregion`, `highlightthickness`, `width`, `height` |
 | `PanedWindow` | 📦 | Resizable panes (tk) | `orient`, `sashwidth`, `showhandle`, `bg`, `relief`, `bd` |
 | `TtkPanedWindow` | 🟦📦 | Resizable panes (ttk) | `orient` only — very limited ttk styling |
 | `OptionMenu` |  | Dropdown (tk) | `values` (string[]), `variable`, `command` (ref only), `text` |
@@ -62,12 +65,21 @@ Source of truth: `python/tkform_engine/widget_spec.py` (`WIDGET_ALLOWED_PROPS`).
 | `Sizegrip` | 🟦 | Bottom-right resize handle | (no meaningful props) |
 | `Menubutton` |  | Button that opens a menu | `text`, `bg`, `fg`, `padx`, `pady`, `compound`, `underline` |
 | `Message` |  | Wrapped multi-line text (tk) | `text`, `padx`, `pady`, `highlightthickness`, `bg`, `fg`, `font`, `anchor`, `width`, `aspect` |
+| `DateEntry` | 🟧 | Date picker entry | `dateformat` (non-empty), `firstweekday` (0–6), `startdate` (ISO `YYYY-MM-DD`), `textvariable`, `state` |
+| `LabeledScale` | 🟧 | Labeled slider | `from_`, `to` (`from_` < `to`), `variable`, `compound` (`"top"`/`"bottom"`) |
+| `Meter` | 🟧 | Gauge display | `amountused` (≥0), `amounttotal` (>0), `metersize` (≥1), `meterthickness` (≥1), `metertype` (`"full"`/`"semi"`), `showtext`, `interactive`, `subtext`, `textleft`, `textright`, `variable` |
+| `Floodgauge` | 🟧 | Progress gauge | `value`, `maximum`, `orient`, `mode`, `text`, `mask`, `variable`, `textvariable` |
+| `Tableview` | 🟧 | Tabular data view | `columns` (string[]), `columnWidths`, `rows`, `paginated`, `pagesize`, `searchable`, `height`, `selectmode` |
+| `ScrolledText` | 🟧 | Text with built-in scrollbars | `initialText`, `wrap`, `autohide`, `vbar`, `hbar`, `undo`, `state` |
+| `ScrolledFrame` | 🟧📦 | Scrollable container | `autohide`, `padding` |
+
+Provider widgets accept `toolkitProps.ttkbootstrap.bootstyle` (see ttkbootstrap.md). Validation specifics: Meter/Floodgauge/Tableview/DateEntry ranges emit the `invalid_<widget>_*` diagnostics listed in validation.md.
 
 ## Common props accepted by almost every non-ttk widget
 
 `text`, `command` (ref only), `bg`, `fg`, `font`, `relief`, `state`, `bd`, `anchor`, `wraplength`, `justify`, `cursor`, `takefocus`, `width`, `height`.
 
-The full per-type union lives in `widget_spec.py:COMMON_PROPS` plus a small extension set per type. When in doubt, run `scripts/validate_project.py` — unsupported props surface as `unsupported_widget_prop`.
+The full per-type union lives in `schema/widget-catalog.json` (`commonProps` per widget). When in doubt, run `scripts/validate_project.py` — unsupported props surface as `unsupported_widget_prop`.
 
 ## Data-bearing props (normalized on load)
 
@@ -86,10 +98,11 @@ These props get special normalization in `projectSerialization.ts:174-196` — p
 
 ```jsonc
 {
-  "schemaVersion": 2,
+  "schemaVersion": 4,
   "name": "Demo",
   "canvasWidth": 320,
   "canvasHeight": 160,
+  "toolkit": { "name": "tkinter", "theme": "default" },
   "widgets": [
     {
       "id": "label-hello",
@@ -112,9 +125,9 @@ These props get special normalization in `projectSerialization.ts:174-196` — p
   "menuBar": null,
   "rootBg": "#ffffff",
   "rootResizable": true,
-  "tkTheme": "default",
   "variables": [],
   "nonVisuals": [],
-  "resources": []
+  "resources": [],
+  "animations": []
 }
 ```

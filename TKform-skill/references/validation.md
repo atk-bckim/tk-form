@@ -28,7 +28,7 @@ warning · invalid_default_value · widgets[1].props.value · Widget 'theme_comb
 
 The script uses the same engine the VS Code extension uses, so what you see here matches what the user sees in the designer's Problems panel.
 
-## Limits (project_limits.py)
+## Limits (schema/project-limits.json, loaded by `project_limits.py`)
 
 | Limit | Value | Diagnostic code if exceeded |
 |---|---|---|
@@ -39,6 +39,8 @@ The script uses the same engine the VS Code extension uses, so what you see here
 | Variables count | 500 | `project_variable_limit_exceeded` |
 | Non-visuals count | 500 | `project_non_visual_limit_exceeded` |
 | Nesting depth (widgets or menus) | 64 | `max_widget_nesting_depth_exceeded` / `max_menu_nesting_depth_exceeded` |
+| Animations count | 500 | Designer-side limit (not enforced by the Python validator) |
+| Animation duration / delay / repeat | 600,000 ms / 86,400,000 ms / 10,000 or `infinite` | `invalid_animation_duration` / `invalid_animation_delay` / `invalid_animation_repeat` |
 
 ## Diagnostic codes (grouped)
 
@@ -47,18 +49,30 @@ The script uses the same engine the VS Code extension uses, so what you see here
 |---|---|---|
 | `duplicate_widget_id` | error | Two widgets share an `id`. |
 | `duplicate_widget_name` | error | Two widgets share a `name`. |
-| `invalid_widget_name` | error | `name` is not a valid Python identifier (or is a keyword). |
+| `invalid_widget_name` | error | `name` is not a valid ASCII Python identifier (or is a keyword). |
 | `invalid_variable_name` | error | A Tk variable's `name` is invalid. |
 | `duplicate_variable_name` | error | Two Tk variables share a `name`. |
 | `invalid_variable_type` | error | `varType` not in the four allowed types. |
 | `invalid_component_name` | error | Non-visual component `name` is invalid. |
 | `invalid_resource_name` | error | Resource `name` can't become a Python identifier. |
-| `invalid_handler_name` | error | Handler `handlerName` is not a valid identifier. |
+| `invalid_handler_name` | error | Handler `handlerName` is not a valid identifier. Unicode letters are allowed per PEP 3131 (NFKC-stable, non-keyword); widget/variable/animation/component names stay ASCII. |
+| `invalid_animation_id` / `invalid_animation_name` | error | Animation `id` empty or `name` not a valid ASCII identifier. |
+| `duplicate_animation_id` / `duplicate_animation_name` | error | Two animations share an `id` or `name`. |
+
+### Toolkit (ttkbootstrap)
+| Code | Severity | Meaning |
+|---|---|---|
+| `unsupported_toolkit` | error | `toolkit.name` is not `tkinter` or `ttkbootstrap`. |
+| `unsupported_toolkit_major` | error | ttkbootstrap `majorVersion` missing or not 2 (3.x unsupported). |
+| `unsupported_toolkit_widget` | error | A ttkbootstrap-only widget/component used under the tkinter toolkit. |
+| `unsupported_toolkit_prop` | error | A `toolkitProps` key not allowed for this widget/toolkit. |
+| `invalid_bootstyle_token` / `invalid_bootstyle_variant` | error/warning | `toolkitProps.ttkbootstrap.bootstyle` isn't a valid color/variant token (see ttkbootstrap.md). |
+| `invalid_bootstrap_icon` / `invalid_icon_size` | error/warning | Unknown Bootstrap icon name, or `iconSize` outside 8–128. |
 
 ### Widget types & props
 | Code | Severity | Meaning |
 |---|---|---|
-| `unsupported_widget_type` | error | `type` not in the 25 supported types. |
+| `unsupported_widget_type` | error | `type` not in the 32 supported types (or a ttkbootstrap-only type under the tkinter toolkit). |
 | `unsupported_widget_prop` | error | A prop key isn't allowed for this widget type (see widgets.md). |
 
 ### Parenting & layout
@@ -68,7 +82,7 @@ The script uses the same engine the VS Code extension uses, so what you see here
 | `invalid_parent_container` | error | `parentId` points at a non-container type. |
 | `parent_cycle` | error | A widget's parent chain loops back. |
 | `max_widget_nesting_depth_exceeded` | error | Widget nesting > 64. |
-| `mixed_layout_manager` | error | Siblings under one parent mix `place` and `grid` (except Toplevel/PanedWindow children — see layout.md). |
+| `mixed_layout_manager` | error | Siblings under one parent mix two different layout managers among `place`/`grid`/`pack` (except Toplevel/PanedWindow children — see layout.md). |
 
 ### Variables & references
 | Code | Severity | Meaning |
@@ -99,6 +113,32 @@ The script uses the same engine the VS Code extension uses, so what you see here
 | `menu_item_cycle` | error | Menu `children` chain loops. |
 | `max_menu_nesting_depth_exceeded` | error | Menu nesting > 64. |
 
+### Animations
+| Code | Severity | Meaning |
+|---|---|---|
+| `missing_animation_target` | error | `targetWidgetId` references a non-existent widget. |
+| `invalid_animation_notebook_tab` | error | Target is a synthetic Notebook tab frame. |
+| `invalid_animation_preset` | error | Preset not in the seven supported values. |
+| `invalid_animation_value_target` | error | `fill` target is not a `Progressbar`/`Floodgauge`. |
+| `invalid_animation_trigger` / `invalid_animation_easing` | error | Trigger not in the 7; easing not in `linear`/`easeIn`/`easeOut`/`easeInOut`. |
+| `invalid_animation_duration` / `invalid_animation_delay` / `invalid_animation_repeat` | error | Out of range (see Limits). |
+| `invalid_animation_layout` | error | Spatial preset on a non-`place()` target (grid/pack/Toplevel/pane). |
+| `invalid_animation_parameter` | error | Preset parameter out of range or wrong enum. |
+| `invalid_animation_color` / `invalid_animation_color_target` | error | Bad `#hex`, or target doesn't support animated `bg`/`fg` (ttk themed widgets rejected). |
+| `reserved_name_collision` / `animation_symbol_collision` | error | Animation name collides with reserved/generated symbols (e.g. an event handler). |
+
+### ttkbootstrap providers & dialogs
+| Code | Severity | Meaning |
+|---|---|---|
+| `invalid_dateentry_startdate` / `invalid_dateentry_weekday` / `invalid_dateentry_format` | error | `startdate` not ISO `YYYY-MM-DD`, `firstweekday` outside 0–6, empty `dateformat`. |
+| `invalid_labeledscale_compound` / `invalid_scale_range` | error | `compound` not `top`/`bottom`; `from_` not less than `to`. |
+| `invalid_meter_total` / `invalid_meter_used` / `invalid_meter_type` / `invalid_meter_size` / `invalid_meter_thickness` | error | `amounttotal` ≤ 0, `amountused` < 0, `metertype` not `full`/`semi`, `metersize`/`meterthickness` < 1. |
+| `meter_used_exceeds_total` | warning | `amountused` exceeds `amounttotal`. |
+| `invalid_floodgauge_maximum` / `invalid_floodgauge_mask` | error | Floodgauge `maximum`/`mask` invalid. |
+| `invalid_tableview_columns` / `invalid_tableview_column_width` / `invalid_tableview_pagesize` | error | Tableview column/page settings invalid. |
+| `invalid_scrolledtext_wrap` / `invalid_scrolledtext_bars` / `invalid_scrolledframe_padding` | error | ScrolledText/ScrolledFrame options invalid. |
+| `invalid_ttkmessagebox_type` / `invalid_querybox_type` | error | `mbType`/`queryType` not in the allowed sets (see non-visuals.md). |
+
 ### Data widgets
 | Code | Severity | Meaning |
 |---|---|---|
@@ -121,6 +161,10 @@ The script uses the same engine the VS Code extension uses, so what you see here
 |---|---|---|
 | Inline code in `props.command` | `invalid_command_reference` | Move to `events.command`. |
 | ttk widget with `bg`/`fg` | (silently dropped or `unsupported_widget_prop`) | Remove the prop; ttk is themed, not colored. |
+| `DateEntry`/`Meter`/etc. in a tkinter project | `unsupported_toolkit_widget` | Switch the project `toolkit` to ttkbootstrap (see ttkbootstrap.md). |
+| `preset: "fill"` or `"grow"` animation | `invalid_animation_preset` | Use `slide`/`shake`/`bounce`/`pulse`/`color`. |
+| `slide` animation on a grid/pack child | `invalid_animation_layout` | Lay the target out with `place`, or animate a different widget. |
+| `color` animation on a ttkbootstrap Button | `invalid_animation_color_target` | Animate a classic Tk widget (Text/Canvas/Listbox) instead. |
 | `textvariable` on a Text widget | `unsupported_widget_prop` | Use `initialText` instead. |
 | Vertical Scrollbar on Entry | `invalid_scrollbar_entry_orientation` | Set `orient: "horizontal"`. |
 | Reference a Tk variable without declaring it | `missing_variable_reference` | Add it to `variables[]`. |
