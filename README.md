@@ -32,15 +32,34 @@ TK-Form v1.6.0 documentation:
 
 ## AI Skill
 
-The [`TKform-skill`](./TKform-skill/) folder ships the `tkform-author` skill for AI coding agents (Codex, Copilot, Cursor, Claude, etc.). It teaches an agent how to write and edit `.tkform.json` project files, bundles the same JSON Schema as the extension, and includes an engine-backed validator script.
+The [`TKform-skill`](./TKform-skill/) folder ships the **tkform-author** skill for AI coding agents (Codex, Copilot, Cursor, Claude, ZCode, etc.). It teaches an agent how to author and edit `.tkform.json` — the project format of the TK-Form designer — instead of guessing the Tkinter JSON structure from scratch. The skill is refreshed for **TK-Form v1.6.0** (schema version 4).
 
-Point your agent at this folder to register the skill:
+What is inside:
+
+| Part | Purpose |
+|---|---|
+| `SKILL.md` | Routing hub: mental model, authoring traps, and the standard validate-and-fix workflow |
+| `references/` (11 guides) | Focused, load-on-demand docs: widgets and per-type prop allow-lists, events, Tk variables, `place`/`grid`/`pack` layout, menus, non-visual components, animations, ttkbootstrap toolkits, image resources, diagnostics |
+| `references/tkform.schema.json` | The same JSON Schema the extension registers for `*.tkform.json` |
+| `scripts/validate_project.py` | A validator that runs the extension's bundled Python engine — the same checks the designer's **Validate** command performs |
+
+### Install
+
+Point your AI agent at the folder:
 
 ```text
 https://github.com/atk-bckim/tk-form/tree/main/TKform-skill
 ```
 
-Inside VS Code you can also use the designer's **AI Skill** toolbar button, which opens the setup guide.
+Most agents register the skill by cloning or copying the folder into their skills directory (for example `.agents/skills/tkform-author/`). Inside VS Code, the designer's **AI Skill** toolbar button opens the same setup guide.
+
+### Validate a project
+
+```bash
+python TKform-skill/scripts/validate_project.py path/to/project.tkform.json
+```
+
+Run it with a local Python 3.9+ runtime. When invoked outside the tkform repository, pass the engine location with `--engine-root` — details are in [`TKform-skill/SKILL.md`](./TKform-skill/SKILL.md). A mirror of this skill also lives in the [atk-bckim/bckim-skills](https://github.com/atk-bckim/bckim-skills/tree/main/TKform-skill) repository.
 
 ## Feedback and Support
 
