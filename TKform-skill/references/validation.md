@@ -120,7 +120,7 @@ The script uses the same engine the VS Code extension uses, so what you see here
 | `invalid_animation_notebook_tab` | error | Target is a synthetic Notebook tab frame. |
 | `invalid_animation_preset` | error | Preset not in the seven supported values. |
 | `invalid_animation_value_target` | error | `fill` target is not a `Progressbar`/`Floodgauge`. |
-| `invalid_animation_trigger` / `invalid_animation_easing` | error | Trigger not in the 7; easing not in `linear`/`easeIn`/`easeOut`/`easeInOut`. |
+| `invalid_animation_trigger` / `invalid_animation_easing` | error | Trigger not in the 7; easing not in the 7 supported curves (the last three curves need TK-Form 1.7.0+). |
 | `invalid_animation_duration` / `invalid_animation_delay` / `invalid_animation_repeat` | error | Out of range (see Limits). |
 | `invalid_animation_layout` | error | Spatial preset on a non-`place()` target (grid/pack/Toplevel/pane). |
 | `invalid_animation_parameter` | error | Preset parameter out of range or wrong enum. |
