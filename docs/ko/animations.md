@@ -2,8 +2,8 @@
 title: 위젯 애니메이션
 document_type: User Guide
 created: 2026-07-19
-last_updated: 2026-07-21
-version: v1.1
+last_updated: 2026-09-06
+version: v1.2
 status: Published
 tags: [tk-form, animation, tkinter, preview, export]
 ---
@@ -25,7 +25,7 @@ tags: [tk-form, animation, tkinter, preview, export]
 
 ## 개요
 
-TK-Form v1.3.0은 위젯에 선언형 애니메이션을 추가하고 Tkinter의 `after` 스케줄링으로 실행하는 기능을 제공합니다. 애니메이션은 프로젝트 schema v3의 `animations` 배열에 저장되며 Validate, Preview, Function/Class/Split-file Export에 동일하게 적용됩니다.
+TK-Form은 위젯에 선언형 애니메이션을 추가하고 Tkinter의 `after` 스케줄링으로 실행하는 기능을 제공합니다(v1.3.0에서 도입). 애니메이션은 프로젝트 파일의 `animations` 배열에 저장되며 Validate, Preview, Function/Class/Split-file Export에 동일하게 적용됩니다.
 
 애니메이션을 만들기 전에 대상 위젯의 위치와 크기를 확정하세요. 공간 애니메이션은 생성된 Python에서 실제로 `place()`되는 위젯에 사용할 수 있습니다.
 
@@ -62,7 +62,7 @@ TK-Form v1.3.0은 위젯에 선언형 애니메이션을 추가하고 Tkinter의
 | `pulse` | `scale`: 0보다 크고 최대 1,000 | 위젯 중심을 기준으로 확대했다가 원래 크기로 돌아옵니다. |
 | `color` | `property`: bg/fg, `to`: `#RGB` 또는 `#RRGGBB` | 현재 색상에서 지정 색상으로 보간합니다. |
 
-`slide`, `shake`, `bounce`, `pulse`는 `place()`로 배치되는 위젯만 지원합니다. `color`는 선택한 `bg` 또는 `fg` 속성을 안전하게 지원하는 클래식 Tk 위젯에서만 사용할 수 있습니다.
+`slide`, `shake`, `bounce`, `pulse`는 `place()`로 배치되는 위젯만 지원합니다. `color`는 선택한 `bg` 또는 `fg` 속성을 안전하게 지원하는 클래식 Tk 위젯에서만 사용할 수 있습니다. ttk 테마 위젯(ttkbootstrap의 Button, Label, Entry, Frame 등)은 `bg`/`fg` 옵션이 없어 `color` preset이 검증에서 거부됩니다. ttkbootstrap 프로젝트에서도 `Text`, `Canvas`, `Listbox` 같은 클래식 Tk 위젯은 `color`를 사용할 수 있습니다.
 
 ## Trigger와 수동 제어
 
@@ -112,14 +112,16 @@ Event Editor handler 안에서는 해당 export 모드가 제공하는 동일 �
 
 | 문서 | 경로 | 관계 |
 |---|---|---|
-| 시작하기 | [getting-started.md](./getting-started.md) | v1.3.1 설치와 Python 준비를 설명합니다. |
+| 시작하기 | [getting-started.md](./getting-started.md) | v1.6.0 설치와 Python 준비를 설명합니다. |
 | 디자이너 작업 흐름 | [designer-workflow.md](./designer-workflow.md) | Validate, Preview, Export 순서를 설명합니다. |
-| 기술 범위 | [technical-scope.md](./technical-scope.md) | schema v3, 지원 기능과 안전 한도를 정의합니다. |
+| ttkbootstrap 프로젝트 | [ttkbootstrap.md](./ttkbootstrap.md) | ttkbootstrap 프로젝트에서의 애니메이션 제한을 포함합니다. |
+| 기술 범위 | [technical-scope.md](./technical-scope.md) | 프로젝트 형식, 지원 기능과 안전 한도를 정의합니다. |
 | 문제 해결과 피드백 | [troubleshooting.md](./troubleshooting.md) | 런타임 및 진단 문제의 복구 방법을 제공합니다. |
 
 ## 변경 이력
 
 | 버전 | 날짜 | 변경 사항 |
 |---|---|---|
+| v1.2 | 2026-09-06 | v1.6.0 기준으로 ttk 테마 위젯의 color preset 거부 규칙과 ttkbootstrap 링크를 추가했습니다. |
 | v1.1 | 2026-07-21 | 릴리스 참조를 v1.3.1로 갱신했습니다. |
 | v1.0 | 2026-07-19 | TK-Form v1.3.0 위젯 애니메이션 안내를 작성했습니다. |
