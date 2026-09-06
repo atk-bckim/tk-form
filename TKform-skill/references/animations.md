@@ -26,11 +26,11 @@ Declarative widget animations stored in the top-level `animations[]` array and e
 | `id` | yes | Stable unique id (`duplicate_animation_id`). |
 | `name` | yes | **ASCII** Python identifier, unique across animations (`invalid_animation_name`, `duplicate_animation_name`). Must not collide with generator reserved names, event handlers, or other generated symbols (`reserved_name_collision`, `animation_symbol_collision`). |
 | `targetWidgetId` | yes | An existing widget id (`missing_animation_target`). |
-| `preset` | yes | One of `slide`, `shake`, `bounce`, `pulse`, `color`, `fill`, `grow` (see below). The Inspector palette offers the first five; `fill`/`grow` are engine-supported and authored in JSON by hand. |
+| `preset` | yes | One of `slide`, `shake`, `bounce`, `pulse`, `color`, `fill`, `grow` (see below). `fill` and `grow` require TK-Form 1.7.0+. |
 | `trigger` | no | Default `manual`. One of `load`, `click`, `hoverEnter`, `hoverLeave`, `focusIn`, `focusOut`, `manual` (`invalid_animation_trigger`). |
 | `durationMs` | no | Default `300`. Number > 0, ≤ 600,000 (`invalid_animation_duration`). |
 | `delayMs` | no | Default `0`. Number 0–86,400,000 (`invalid_animation_delay`). |
-| `easing` | no | Default `easeOut`. One of `linear`, `easeIn`, `easeOut`, `easeInOut` (`invalid_animation_easing`). The schema enum also lists `backOut`/`elasticOut`/`bounceOut`, but the engine validator rejects them — do not use. |
+| `easing` | no | Default `easeOut`. One of `linear`, `easeIn`, `easeOut`, `easeInOut`, `backOut`, `elasticOut`, `bounceOut` (`invalid_animation_easing`). The last three curves require TK-Form 1.7.0+ validators. |
 | `repeatCount` | no | Default `1`. Integer 1–10,000 or the string `"infinite"` (`invalid_animation_repeat`). |
 | `parameters` | preset-specific | See the preset table. Wrong values → `invalid_animation_parameter`. |
 
