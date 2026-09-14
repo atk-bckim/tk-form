@@ -2,8 +2,8 @@
 title: Technical Scope
 document_type: Reference
 created: 2026-07-16
-last_updated: 2026-09-06
-version: v1.3
+last_updated: 2026-09-14
+version: v1.4
 status: Published
 tags: [tk-form, architecture, tkinter, scope]
 ---
@@ -24,7 +24,7 @@ tags: [tk-form, architecture, tkinter, scope]
 
 ## Release Scope
 
-This reference describes the public **TK-Form v1.6.0** VSIX release. It is a visual authoring and code-generation tool for practical Tkinter applications, not a general-purpose IDE or a two-way editor for handwritten Python.
+This reference describes the public **TK-Form v1.8.0** VSIX release. It is a visual authoring and code-generation tool for practical Tkinter applications, not a general-purpose IDE or a two-way editor for handwritten Python.
 
 ## Architecture and Data Flow
 
@@ -52,14 +52,14 @@ A project describes a root window plus widgets, menus, Tk variables, image resou
 
 The model supports:
 
-- Root-window dimensions, background, resize behavior, and ttk theme selection.
-- `place`, `grid`, and `pack` layout managers. Children of the same parent must use one manager, except under `Toplevel`, `PanedWindow`, and `TtkPanedWindow`.
+- Root-window dimensions, background, resize behavior, ttk theme selection, window title, a window icon from any image resource, minimum window size, and startup placement (`default`/`screenCenter`).
+- `place`, `grid`, and `pack` layout managers. Children of the same parent must use one manager, except under `Toplevel`, `PanedWindow`, and `TtkPanedWindow`. `grid` supports row/column stretch weights (`gridRowWeight`/`gridColWeight`, emitted as `rowconfigure()`/`columnconfigure()` on the parent).
 - An Event Editor for `command` handlers and Tk binding sequences such as `<Button-1>` or `<Key>`. Event handler names accept Unicode Python identifiers per PEP 3131 (for example `저장하기` or `保存设置`) while remaining NFKC-stable, non-keyword, and unique. Widget, Tk variable, animation, and non-visual component names remain ASCII identifiers.
 - Menu hierarchies, menu commands, and accelerator bindings.
 - `StringVar`, `IntVar`, `DoubleVar`, and `BooleanVar` declarations.
 - Base64 image resources referenced by widget ID.
-- `Timer`, `FileDialog`, `ColorChooser`, and `MessageBox` non-visual components; ttkbootstrap projects add `TtkMessagebox`, `Querybox`, `DatePickerDialog`, `ColorPickerDialog`, `ToastNotification`, and `ToolTip`.
-- Widget animations with `slide`, `shake`, `bounce`, `pulse`, and `color` presets and load/click/hover/focus/manual triggers.
+- `Timer`, `FileDialog`, `ColorChooser`, `MessageBox`, `BackgroundWorker`, and `ThreadPool` non-visual components; ttkbootstrap projects add `TtkMessagebox`, `Querybox`, `DatePickerDialog`, `ColorPickerDialog`, `ToastNotification`, and `ToolTip`. `BackgroundWorker` runs event code on a daemon background thread and delivers an `{ok, value, error}` payload to a UI-thread `completed` handler with cooperative cancellation (`run`/`cancel`/`cancelled`/`is_running`); `ThreadPool` uses a `concurrent.futures.ThreadPoolExecutor` with `submit`/`shutdown` and a `maxWorkers` (1–64) prop.
+- Widget animations with `slide`, `shake`, `bounce`, `pulse`, `color`, `fill`, and `grow` presets and load/click/hover/focus/manual triggers.
 - Canonical Scrollbar bindings through `bindings.command`; legacy `xscrollcommand` and `yscrollcommand` are accepted for compatibility.
 
 For a Scrollbar, horizontal targets are `Text`, `Listbox`, `Entry`, `Treeview`, and `Canvas`; vertical targets are `Text`, `Listbox`, `Treeview`, and `Canvas`.
@@ -77,6 +77,7 @@ The legacy widget `props.command` field accepts a Python function reference only
 | Common controls | `Button`, `Label`, `Entry`, `Text`, `Checkbutton`, `Radiobutton`, `Listbox`, `Scale`, `OptionMenu`, `Spinbox`, `Scrollbar`, `Menubutton`, `Message` |
 | Containers and layout | `Frame`, `LabelFrame`, `Canvas`, `PanedWindow`, `TtkPanedWindow`, `Notebook`, `Toplevel` |
 | ttk additions | `Progressbar`, `Combobox`, `Treeview`, `Sizegrip`, `Separator` |
+| Charts | `Chart` (bar/line/pie. The default `canvas` renderer draws on a plain `tk.Canvas` with no third-party dependencies; the optional `matplotlib` renderer requires the matplotlib package) |
 | ttkbootstrap provider widgets (ttkbootstrap projects only) | `DateEntry`, `LabeledScale`, `Meter`, `Floodgauge`, `Tableview`, `ScrolledText`, `ScrolledFrame` |
 
 `Notebook`, `Progressbar`, `Combobox`, `Treeview`, `Sizegrip`, `Separator`, and `TtkPanedWindow` use ttk constructors. Their supported properties differ from classic Tk widgets; for example, classic visual properties such as `bg`, `fg`, `padx`, and `pady` are not supported in the same way. In ttkbootstrap projects the Inspector follows each widget's real backend module, so classic tk fallback widgets such as `Text`, `Canvas`, `Listbox`, `PanedWindow`, and `Message` expose their tk style properties.
@@ -107,6 +108,7 @@ Python-backed actions require a trusted local workspace. Explicit Export destina
 - `Entry` supports horizontal Scrollbar binding only.
 - Spatial animations require widgets that are actually emitted with `place()`. Real `Notebook` tabs, `grid` widgets, `Toplevel`, and pane-managed widgets cannot be targets.
 - Color animations apply only to a `bg` or `fg` property that the target widget safely supports; they are rejected on ttk themed widgets (ttkbootstrap Button, Label, Entry, Frame, and similar).
+- The Chart canvas approximation is an SVG-based sketch; Preview is authoritative for the final rendering. The `matplotlib` renderer requires the matplotlib package in the runtime that runs the generated app.
 - Event handler names accept Unicode (PEP 3131) identifiers, while widget, Tk variable, animation, and non-visual component names remain ASCII.
 - The product focuses on practical, commonly used single-window forms and internal tools; automated licensing, in-app account management, and broad enterprise self-service are not included.
 
@@ -124,6 +126,7 @@ Python-backed actions require a trusted local workspace. Explicit Export destina
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.4 | 2026-09-14 | Added the Chart widget, BackgroundWorker/ThreadPool components, window-level options, grid stretch weights, and the `fill`/`grow` presets for v1.8.0. |
 | v1.3 | 2026-09-06 | Reflected schema v4, pack layout, ttkbootstrap provider widgets, Python runtime requirements, and Unicode handler names for v1.6.0. |
 | v1.2 | 2026-07-21 | Updated the reference for v1.3.1 and its responsive command and Inspector workflow. |
 | v1.1 | 2026-07-19 | Added the v1.3.0 schema v3 animation capabilities and boundaries. |

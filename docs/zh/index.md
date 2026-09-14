@@ -1,11 +1,11 @@
 ---
-last_updated: 2026-09-06
-version: v1.0
+last_updated: 2026-09-14
+version: v1.1
 ---
 
 # TK-Form 文档
 
-> 本站是 TK-Form for VS Code v1.6.0 的用户文档，介绍公开 VSIX 发布版本的使用方式、支持范围，以及当前的技术边界。
+> 本站是 TK-Form for VS Code v1.8.0 的用户文档，介绍公开 VSIX 发布版本的使用方式、支持范围，以及当前的技术边界。
 
 ## 用户指南
 

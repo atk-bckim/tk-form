@@ -9,7 +9,7 @@ Source of truth: `schema/widget-catalog.json` (consumed by `python/tkform_engine
 | Field | Type | Required | Notes |
 |---|---|---|---|
 | `id` | string | yes | Unique. Target of `parentId` / `bindings.command`. |
-| `type` | enum (32) | yes | See table below. Seven types are ttkbootstrap-only. |
+| `type` | enum (33) | yes | See table below. Seven types are ttkbootstrap-only. |
 | `name` | Python identifier (ASCII) | yes | Becomes `self.<name>` in generated code. Unique across widgets. |
 | `parentId` | string \| null | no | Must reference a container (see Containers). null = child of root window. |
 | `x`, `y` | number | no | Position. Under `place`: **relative to the parent container's top-left** (or the root window if `parentId` is null) — standard Tkinter `place` semantics, NOT absolute-to-canvas. Under `grid`/`pack`: design hint only, ignored at codegen. |
@@ -34,7 +34,7 @@ Source of truth: `schema/widget-catalog.json` (consumed by `python/tkform_engine
 7. **`font` format.** Accepts a Tkinter font spec. Two string forms work: a space-separated string (`"TkDefaultFont 14 bold"`, `"Helvetica 10"`) — case-insensitive modifiers `bold`/`italic`/`underline`/`overstrike` may trail; or a Python-tuple literal string (`"(\"Helvetica\", 10, \"bold\")"`). Named fonts like `"TkDefaultFont"` are also valid. ttk widgets generally accept `font` (e.g. Combobox, Treeview headings) — the per-type table marks it where supported.
 8. **Numeric-looking values must still be strings.** `values` on Combobox/OptionMenu/Spinbox, `items` on Listbox, `columns`/`columnWidths` on Treeview are all normalized to `string[]`. Pass numbers as strings (`["9600", "19200"]`, not `[9600, 19200]`) — the engine stringifies them anyway, but explicit strings avoid surprises and match the examples. The same applies to a Combobox's default `value`.
 
-## The 32 widget types
+## The 33 widget types
 
 🟦 = ttk widget (themed; cannot use bg/fg/padx/pady). 🟧 = ttkbootstrap-only (requires `toolkit.name: "ttkbootstrap"`). 📦 = container (can be a `parentId`). 🔄 = scrollable (can be the target of a Scrollbar `bindings.command`).
 
@@ -72,6 +72,8 @@ Source of truth: `schema/widget-catalog.json` (consumed by `python/tkform_engine
 | `Tableview` | 🟧 | Tabular data view | `columns` (string[]), `columnWidths`, `rows`, `paginated`, `pagesize`, `searchable`, `height`, `selectmode` |
 | `ScrolledText` | 🟧 | Text with built-in scrollbars | `initialText`, `wrap`, `autohide`, `vbar`, `hbar`, `undo`, `state` |
 | `ScrolledFrame` | 🟧📦 | Scrollable container | `autohide`, `padding` |
+| `Chart` |  | Bar/line/pie chart | `chartType` (`bar`/`line`/`pie`), `renderer` (`canvas` default — zero dependencies; or `matplotlib`, which requires the package at runtime), `series`, `title` |
+| `Chart` | 🟧📊 | Bar/line/pie chart drawn on a tk.Canvas | `chartType`, `renderer`, `series`, `title` |
 
 Provider widgets accept `toolkitProps.ttkbootstrap.bootstyle` (see ttkbootstrap.md). Validation specifics: Meter/Floodgauge/Tableview/DateEntry ranges emit the `invalid_<widget>_*` diagnostics listed in validation.md.
 

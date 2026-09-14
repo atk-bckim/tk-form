@@ -1,6 +1,6 @@
 # Non-visual components
 
-Components without a visible widget on the canvas. Declared under `nonVisuals[]`. Ten types: the four classics **Timer, FileDialog, ColorChooser, MessageBox**, plus six ttkbootstrap-only dialogs **TtkMessagebox, Querybox, DatePickerDialog, ColorPickerDialog, ToastNotification, ToolTip** (require `toolkit.name: "ttkbootstrap"`; see ttkbootstrap.md).
+Components without a visible widget on the canvas. Declared under `nonVisuals[]`. Twelve types: the classics **Timer, FileDialog, ColorChooser, MessageBox, BackgroundWorker, ThreadPool**, plus six ttkbootstrap-only dialogs **TtkMessagebox, Querybox, DatePickerDialog, ColorPickerDialog, ToastNotification, ToolTip** (the latter require `toolkit.name: "ttkbootstrap"`; see ttkbootstrap.md).
 
 ## Shape
 
@@ -19,7 +19,7 @@ Components without a visible widget on the canvas. Declared under `nonVisuals[]`
 | Field | Required | Notes |
 |---|---|---|
 | `id` | yes | Stable unique id (`duplicate_component_id` if repeated). |
-| `type` | yes | One of the ten types above (`unsupported_widget_type` under the wrong toolkit for ttkbootstrap-only ones). |
+| `type` | yes | One of the twelve types below (`unsupported_widget_type` under the wrong toolkit for ttkbootstrap-only ones). |
 | `name` | yes | ASCII Python identifier; becomes `self.<name>`. Must be unique across non-visuals (`invalid_component_name` if not a valid identifier). |
 | `props` | no | Type-specific config (see below). |
 | `events` | no | Same shape as widget events (see events.md). |
@@ -230,7 +230,45 @@ Attaches a tooltip to a widget.
 
 `TtkMessagebox`, `Querybox`, `DatePickerDialog`, and `ColorPickerDialog` accept a `variable` prop naming a **declared** Tk variable; the generated code writes the dialog result into it. The variable's `varType` must match the result type (`StringVar` for messagebox/datepicker/colorpicker, and per-`queryType` for Querybox). An undeclared variable → `missing_variable_reference`.
 
-## Common usage pattern
+### BackgroundWorker
+
+Runs an event handler on a daemon background thread so the UI stays responsive, then
+delivers the result to a UI-thread `completed` handler through an `after()` marshal loop.
+
+```jsonc
+{ "id": "worker-fetch", "type": "BackgroundWorker", "name": "fetch_worker",
+  "events": {
+    "doWork": { "handlerName": "fetch_data", "code": "value = int(fetch_entry.get()) * 2; return value" },
+    "completed": { "handlerName": "on_fetch_done", "code": "print(result)" }
+  } }
+```
+
+| Event | Handler signature | Notes |
+|---|---|---|
+| `doWork` | `def <name>()` | Runs on the background thread. `return` a value to hand it to `completed`. |
+| `completed` | `def <name>(result)` | Runs on the UI thread. `result` is `{ok, value, error}` — check `result["ok"]` before using `result["value"]`. |
+
+The component `name` also exposes helpers in event code: `run()`, `cancel()`, `cancelled()`, and `is_running()` for cooperative cancellation.
+
+## ThreadPool
+
+Runs handlers on a `concurrent.futures.ThreadPoolExecutor`.
+
+```jsonc
+{ "id": "pool-tasks", "type": "ThreadPool", "name": "task_pool",
+  "props": { "maxWorkers": 4 },
+  "events": {
+    "taskCompleted": { "handlerName": "on_task_done", "code": "print(result)" }
+  } }
+```
+
+| Item | Notes |
+|---|---|
+| `maxWorkers` prop | 1–64, default 4 (`invalid_pool_max_workers` outside the range). |
+| `taskCompleted` event | `def <name>(result)` on the UI thread; `result` is `{ok, value, error}`. |
+| Helpers | `submit(fn, *args)` to queue work and `shutdown()` from event code via the component `name`. |
+
+# Common usage pattern
 
 Non-visuals are usually invoked from a Button's event handler:
 
@@ -247,3 +285,34 @@ Non-visuals are usually invoked from a Button's event handler:
 ```
 
 So a typical pattern is: declare the non-visual once in `nonVisuals[]`, reference it by `name` from event code elsewhere.
+
+
+## BackgroundWorker
+
+Runs event-handler code in a daemon background thread and delivers the outcome back to the UI thread through an `after()` poll loop. **Threads only** — Tkinter UIs must never be touched from the worker; mutate UI only inside `completed`.
+
+| Aspect | Value |
+|---|---|
+| Events | `doWork` (label "Do Work (background)", no params — runs in the thread), `completed` (label "Completed", `result` param — runs on the UI thread) |
+| `result` payload | Dict `{"ok": bool, "value": <doWork return value>, "error": <exception or None>}` |
+| Methods | `worker_run()`, `worker_cancel()`, `worker_cancelled()`, `worker_is_running()` |
+| Notes | Worker thread is a daemon; calling `run()` while already running raises `RuntimeError`; Cancellation is cooperative — poll `worker_cancelled()` inside `doWork`. |
+
+## ThreadPool
+
+Runs callables on a `concurrent.futures.ThreadPoolExecutor` and delivers each result to the UI thread.
+
+| Aspect | Value |
+|---|---|
+| Props | `maxWorkers` (integer 1–64, default 4) |
+| Events | `taskCompleted` (label "Task Completed", `result` param — same `{ok, value, error}` payload dict as BackgroundWorker; results of all submitted tasks arrive here) |
+| Methods | `pool_submit(task)`, `pool_shutdown()` (`shutdown(wait=False)`), plus the raw `pool` executor attribute for advanced use |
+| Notes | Best for I/O-bound work; CPU-bound tasks do not parallelize due to the GIL. The completion poll starts on the first `submit()` and runs for the app's lifetime. |
+
+```jsonc
+// run work without freezing the UI
+{"id": "bw-1", "type": "BackgroundWorker", "name": "report_worker", "events": [
+  {"event": "doWork", "handlerName": "fetch_report", "code": "data = load_slow_report()\nreturn data"},
+  {"event": "completed", "handlerName": "on_report", "code": "status_label.config(text='loaded')}
+]}
+```

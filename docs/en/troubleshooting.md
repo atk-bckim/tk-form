@@ -2,8 +2,8 @@
 title: Troubleshooting and Feedback
 document_type: User Guide
 created: 2026-07-16
-last_updated: 2026-09-06
-version: v1.1
+last_updated: 2026-09-14
+version: v1.2
 status: Published
 tags: [tk-form, troubleshooting, support, feedback]
 ---
@@ -36,7 +36,8 @@ Open **View: Toggle Output** and choose **TK-Form** before reporting a problem. 
 | Preview starts and exits immediately | Generated Python raised an exception or the process closed. | Inspect the TK-Form Output channel and reproduce with the same Python runtime. Compare with the Login example. |
 | Custom changes disappeared after Export | A generated UI file was regenerated. | Keep custom logic in `app.py` with Split-file export; do not rely on edits inside `ui_<project>.py` or another regenerated file. |
 | Bring forward/send backward does nothing on a packed widget | Pack stacking order follows sibling order. | Reorder sibling widgets in the object tree or change the layout manager. Z-order actions are unavailable for packed children. |
-| The Event Editor completion list does not appear | The caret is inside a string or comment, or completion has not been triggered yet. | Press `Ctrl+Space` to open the list. Completions work only in code positions; the In scope hint above the editor lists the available names. |
+| A Chart preview asks for the matplotlib package | The Chart uses the `matplotlib` renderer. | Run `pip install matplotlib` in the preview runtime, or switch the Chart renderer to the dependency-free `canvas`. |
+| The Event Editor completion list does not appear | The caret is inside a string or comment, or completion has not been triggered yet. | Completions open as you type, and `Ctrl+Space` or `Alt+/` also opens the list (use `Alt+/` when a Korean input source claims `Ctrl+Space`). `Escape` closes only an open popover; the In scope hint above the editor lists the available names. |
 | A Unicode handler name (Korean, Chinese, etc.) is rejected | The name is not NFKC-stable, is a Python keyword, or duplicates an existing name. | Use a unique name that stays identical after NFKC normalization. Widget, Tk variable, animation, and non-visual component names must remain ASCII. |
 
 ## Report an Issue
@@ -66,5 +67,6 @@ For commercial licensing or purchasing inquiries, email `bckim7639@gmail.com`.
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.2 | 2026-09-14 | Updated the Chart matplotlib-renderer and completion-trigger (`Alt+/`) entries for v1.8.0. |
 | v1.1 | 2026-09-06 | Added Python version, ttkbootstrap, pack z-order, autocompletion, and Unicode handler entries for v1.6.0. |
 | v1.0 | 2026-07-16 | Initial English troubleshooting and feedback guide. |

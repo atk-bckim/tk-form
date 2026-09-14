@@ -72,7 +72,7 @@ The script uses the same engine the VS Code extension uses, so what you see here
 ### Widget types & props
 | Code | Severity | Meaning |
 |---|---|---|
-| `unsupported_widget_type` | error | `type` not in the 32 supported types (or a ttkbootstrap-only type under the tkinter toolkit). |
+| `unsupported_widget_type` | error | `type` not in the 33 supported types (or a ttkbootstrap-only type under the tkinter toolkit). |
 | `unsupported_widget_prop` | error | A prop key isn't allowed for this widget type (see widgets.md). |
 
 ### Parenting & layout
@@ -138,6 +138,9 @@ The script uses the same engine the VS Code extension uses, so what you see here
 | `invalid_tableview_columns` / `invalid_tableview_column_width` / `invalid_tableview_pagesize` | error | Tableview column/page settings invalid. |
 | `invalid_scrolledtext_wrap` / `invalid_scrolledtext_bars` / `invalid_scrolledframe_padding` | error | ScrolledText/ScrolledFrame options invalid. |
 | `invalid_ttkmessagebox_type` / `invalid_querybox_type` | error | `mbType`/`queryType` not in the allowed sets (see non-visuals.md). |
+| `invalid_chart_type` / `invalid_chart_renderer` / `invalid_chart_series` | error | Chart `chartType` not bar/line/pie, `renderer` not canvas/matplotlib, or `series` malformed. |
+| `matplotlib_renderer_requires_dependency` | warning | The matplotlib renderer needs `pip install matplotlib` in the runtime that runs the generated app. |
+| `invalid_pool_max_workers` | error | ThreadPool `maxWorkers` outside 1–64. |
 
 ### Data widgets
 | Code | Severity | Meaning |

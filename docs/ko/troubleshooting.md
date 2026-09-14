@@ -2,8 +2,8 @@
 title: 문제 해결과 피드백
 document_type: User Guide
 created: 2026-07-16
-last_updated: 2026-09-06
-version: v1.1
+last_updated: 2026-09-14
+version: v1.2
 status: Published
 tags: [tk-form, troubleshooting, support, feedback]
 ---
@@ -36,7 +36,8 @@ tags: [tk-form, troubleshooting, support, feedback]
 | Preview가 즉시 종료됨 | 생성된 Python 예외 또는 프로세스 종료가 발생했습니다. | TK-Form Output 채널을 확인하고 같은 Python 런타임으로 재현합니다. Login 예제와 비교합니다. |
 | Export 후 사용자 변경이 사라짐 | 생성 UI 파일이 다시 생성되었습니다. | Split-file Export에서 사용자 로직은 `app.py`에 둡니다. `ui_<project>.py`나 다른 재생성 파일의 편집에 의존하지 마세요. |
 | pack으로 배치한 위젯에서 앞으로/뒤로 보내기가 동작하지 않음 | pack의 쌓이는 순서는 형제 순서를 따릅니다. | 객체 트리에서 형제 위젯의 순서를 조정하거나 레이아웃 매니저를 바꿉니다. z-order 동작은 pack 자식에 제공되지 않습니다. |
-| Event Editor 자동완성 목록이 나타나지 않음 | 문자열·주석 안에 있거나 제안이 아직 트리거되지 않았습니다. | `Ctrl+Space`로 목록을 엽니다. 자동완성은 코드 위치에서만 동작하며 편집기 위의 In scope 힌트에 사용 가능한 이름이 표시됩니다. |
+| Chart Preview에서 matplotlib 패키지를 요구함 | `matplotlib` 렌더러를 선택한 Chart입니다. | 런타임에 `pip install matplotlib`을 실행하거나, Chart의 renderer를 의존성이 없는 `canvas`로 바꿉니다. |
+| Event Editor 자동완성 목록이 나타나지 않음 | 문자열·주석 안에 있거나 제안이 아직 트리거되지 않았습니다. | 입력을 시작하면 자동으로 열리고, `Ctrl+Space` 또는 `Alt+/`로도 열 수 있습니다(한국어 입력기 사용 시 Ctrl+Space가 입력 전환에 쓰이면 `Alt+/`를 사용하세요). `Escape`는 열린 목록만 닫습니다. |
 | 한글·중국어 등 유니코드 핸들러 이름이 거부됨 | 이름이 NFKC 기준으로 안정하지 않거나 Python 예약어이거나 중복입니다. | NFKC 정규화 후 동일한 형태의 고유한 이름을 사용합니다. 위젯, Tk 변수, 애니메이션, 비시각 컴포넌트 이름은 ASCII 식별자여야 합니다. |
 
 ## 이슈 작성
@@ -66,5 +67,6 @@ tags: [tk-form, troubleshooting, support, feedback]
 
 | 버전 | 날짜 | 변경 사항 |
 |---|---|---|
+| v1.2 | 2026-09-14 | v1.8.0 기준으로 Chart matplotlib 렌더러와 자동완성 트리거(`Alt+/`) 항목을 갱신했습니다. |
 | v1.1 | 2026-09-06 | v1.6.0 기준으로 Python 버전, ttkbootstrap, pack z-order, 자동완성, 유니코드 핸들러명 항목을 추가했습니다. |
 | v1.0 | 2026-07-16 | 한국어 문제 해결과 피드백 안내를 처음 작성했습니다. |
