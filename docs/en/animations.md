@@ -2,8 +2,8 @@
 title: Widget Animations
 document_type: User Guide
 created: 2026-07-19
-last_updated: 2026-09-06
-version: v1.2
+last_updated: 2026-09-14
+version: v1.3
 status: Published
 tags: [tk-form, animation, tkinter, preview, export]
 ---
@@ -46,7 +46,7 @@ Use **Edit** to change an existing item and **Remove** to delete it. Names must 
 | Name | Unique Python identifier | Forms the `start_<name>()` and `stop_<name>()` APIs. |
 | Duration | Greater than 0, up to 600,000 ms | Time for one playback iteration. |
 | Delay | 0–86,400,000 ms | Time to wait before playback starts. |
-| Easing | `linear`, `easeIn`, `easeOut`, `easeInOut` | Progress curve. |
+| Easing | `linear`, `easeIn`, `easeOut`, `easeInOut`, `backOut`, `elasticOut`, `bounceOut` | Progress curve. |
 | Repeat count | 1–10,000 | Total playback iterations. |
 | Infinite repeat | On/off | Repeats until explicitly stopped. |
 
@@ -61,8 +61,10 @@ A project can contain up to 500 animations. New animations default to 300 ms, no
 | `bounce` | `direction`: left/right/up/down, `distance`: 0–1,000,000, `cycles`: 1–10,000 | Moves in the selected direction and returns to the final position. |
 | `pulse` | `scale`: greater than 0, up to 1,000 | Grows around the widget center and returns to its final size. |
 | `color` | `property`: bg/fg, `to`: `#RGB` or `#RRGGBB` | Interpolates from the current color to the target color. |
+| `fill` | `from`: number (optional, defaults to the current value), `to`: number (required), ±1,000,000 | Animates a `Progressbar`/`Floodgauge` filled value toward the target. |
+| `grow` | none | Grows the widget from zero to its designed size, centered on the same spot. |
 
-`slide`, `shake`, `bounce`, and `pulse` require widgets emitted with `place()`. `color` is available only for classic Tk widgets that safely support the selected `bg` or `fg` property. ttk themed widgets (ttkbootstrap Button, Label, Entry, Frame, and similar) have no `bg`/`fg` options, so the `color` preset is rejected during validation. Classic Tk widgets such as `Text`, `Canvas`, and `Listbox` remain usable with `color` in ttkbootstrap projects.
+`slide`, `shake`, `bounce`, `pulse`, and `grow` require widgets emitted with `place()`. `fill` requires a `Progressbar` or `Floodgauge` target. `color` is available only for classic Tk widgets that safely support the selected `bg` or `fg` property. ttk themed widgets (ttkbootstrap Button, Label, Entry, Frame, and similar) have no `bg`/`fg` options, so the `color` preset is rejected during validation. Classic Tk widgets such as `Text`, `Canvas`, and `Listbox` remain usable with `color` in ttkbootstrap projects.
 
 ## Triggers and Manual Control
 
@@ -122,6 +124,7 @@ Inside an Event Editor handler, call the same-named callable provided by that ex
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.3 | 2026-09-14 | Added the `fill`/`grow` presets and the `backOut`/`elasticOut`/`bounceOut` easing curves for v1.8.0. |
 | v1.2 | 2026-09-06 | Added the ttk themed color-preset rejection rule and the ttkbootstrap link for v1.6.0. |
 | v1.1 | 2026-07-21 | Updated the release reference for v1.3.1. |
 | v1.0 | 2026-07-19 | Added the TK-Form v1.3.0 widget-animation guide. |

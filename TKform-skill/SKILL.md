@@ -24,7 +24,7 @@ Documents the **TK-Form v1.6.0** project format (schema version 4). The loader a
   "rootBg": "#ffffff",
   "rootResizable": true,
   "variables": [],                  // StringVar/IntVar/DoubleVar/BooleanVar
-  "nonVisuals": [],                 // Timer/FileDialog/... (+ ttkbootstrap-only dialogs)
+  "nonVisuals": [],                 // Timer/FileDialog/BackgroundWorker/ThreadPool + ttkbootstrap dialogs
   "resources": [],                  // embedded base64 images
   "animations": []                  // slide/shake/bounce/pulse/color (see animations.md)
 }
@@ -32,7 +32,7 @@ Documents the **TK-Form v1.6.0** project format (schema version 4). The loader a
 
 Optional root-window extras: `rootTitle`, `rootPosition` (`"default"` | `"screenCenter"`), `rootMinWidth`/`rootMinHeight`, `rootIconImageId` (a resource id used as the window icon).
 
-Each widget has `id`, `type` (one of 32), `name` (Python identifier), `parentId` (container id or null), `x/y/width/height`, `props` (Tkinter options), optional `events`, layout fields, and `toolkitProps` (per-toolkit options such as ttkbootstrap `bootstyle`). See `references/widgets.md` for the per-type prop allow-list.
+Each widget has `id`, `type` (one of 33), `name` (Python identifier), `parentId` (container id or null), `x/y/width/height`, `props` (Tkinter options), optional `events`, layout fields, and `toolkitProps` (per-toolkit options such as ttkbootstrap `bootstyle`). See `references/widgets.md` for the per-type prop allow-list.
 
 ## Minimal valid project (anchor example)
 
@@ -87,7 +87,7 @@ Don't read everything. Read the file that matches the task.
 | Adding StringVar/IntVar/etc., or wiring `variable`/`textvariable` | `references/variables.md` |
 | Switching between `place`, `grid`, and `pack`, or hitting `mixed_layout_manager` | `references/layout.md` |
 | Adding the menu bar / menus / menu items / shortcuts | `references/menus.md` |
-| Adding a Timer / FileDialog / ColorChooser / MessageBox / ttkbootstrap dialogs | `references/non-visuals.md` |
+| Adding a Timer / FileDialog / BackgroundWorker / ThreadPool / ttkbootstrap dialogs | `references/non-visuals.md` |
 | Embedding an image (logo, icon, illustration) | `references/resources.md` |
 | A diagnostic came back and you don't know what it means | `references/validation.md` |
 | You want the full list of limits / error codes | `references/validation.md` |

@@ -2,8 +2,8 @@
 title: 故障排除与反馈
 document_type: User Guide
 created: 2026-09-06
-last_updated: 2026-09-06
-version: v1.0
+last_updated: 2026-09-14
+version: v1.1
 status: Published
 tags: [tk-form, troubleshooting, support, feedback]
 ---
@@ -36,7 +36,8 @@ tags: [tk-form, troubleshooting, support, feedback]
 | 预览启动后立即退出 | 生成的 Python 抛出异常或进程被关闭。 | 查看 TK-Form Output 通道，并用相同的 Python 运行时复现。可与 Login 示例对比。 |
 | 导出后自定义修改消失 | 生成的 UI 文件被重新生成。 | Split-file 模式下请把自定义逻辑放在 `app.py` 中；不要依赖 `ui_<project>.py` 等重新生成文件里的编辑。 |
 | pack 部件的上移/下移（z-order）操作无效 | pack 的堆叠顺序遵循兄弟部件顺序。 | 在对象树中调整兄弟部件顺序，或更换布局管理器。pack 子部件不提供 z-order 操作。 |
-| Event Editor 的补全列表不出现 | 光标位于字符串或注释内，或补全尚未触发。 | 按 `Ctrl+Space` 打开列表。补全只在代码位置生效；编辑器上方的 In scope 提示列出了可用名称。 |
+| Chart 预览要求安装 matplotlib 包 | 该 Chart 使用 `matplotlib` 渲染器。 | 在预览运行时执行 `pip install matplotlib`，或将 Chart 的 renderer 改为无依赖的 `canvas`。 |
+| Event Editor 的补全列表不出现 | 光标位于字符串或注释内，或补全尚未触发。 | 输入时会自动弹出，`Ctrl+Space` 或 `Alt+/` 也可打开（韩文输入法占用 Ctrl+Space 时请用 `Alt+/`）。`Escape` 只关闭补全弹层；编辑器上方的 In scope 提示列出了可用名称。 |
 | 韩文、中文等 Unicode handler 名称被拒绝 | 名称在 NFKC 归一化后不稳定，是 Python 保留字，或与现有名称重复。 | 请使用 NFKC 归一化后形态不变且唯一的名称。部件、Tk 变量、动画与非可视组件名称必须为 ASCII。 |
 
 ## 提交 Issue
@@ -66,4 +67,5 @@ Bug 与功能建议请通过 [GitHub Issues](https://github.com/atk-bckim/tk-for
 
 | 版本 | 日期 | 变更 |
 |---|---|---|
+| v1.1 | 2026-09-14 | 以 v1.8.0 为准，更新 Chart matplotlib 渲染器与补全触发（`Alt+/`）条目。 |
 | v1.0 | 2026-09-06 | 以 TK-Form v1.6.0 为准，将韩文故障排除与反馈指南翻译为简体中文并首次发布。 |

@@ -2,8 +2,8 @@
 title: 디자이너 작업 흐름
 document_type: User Guide
 created: 2026-07-16
-last_updated: 2026-09-06
-version: v1.3
+last_updated: 2026-09-14
+version: v1.4
 status: Published
 tags: [tk-form, workflow, export, preview]
 ---
@@ -25,11 +25,13 @@ tags: [tk-form, workflow, export, preview]
 
 `*.tkform.json` 사용자 지정 편집기는 Tkinter·ttk 위젯을 배치하는 캔버스, 속성 검사기, 객체 트리, 메뉴·Tk 변수·이미지 리소스·비시각 컴포넌트 제어 영역을 제공합니다. 드래그, 크기 조정, 정렬, 스냅, 확대/축소, 다중 선택, 속성 및 이벤트 코드 편집을 사용할 수 있습니다.
 
+루트 창의 **Window** 섹션에서 창 제목, 이미지 리소스를 사용한 창 아이콘, 최소 창 크기, 시작 위치(기본 또는 화면 중앙)를 지정할 수 있습니다. 캔버스에서는 `Ctrl+X`로 위젯을 잘라내기할 수 있고, 상태 표시줄의 단축키 치트 시트에서 전체 키 바인딩을 확인할 수 있습니다.
+
 프로젝트마다 UI 툴킷을 선택합니다. 기본은 표준 Tkinter이고, 프로젝트를 **ttkbootstrap**으로 설정하면 테마와 위젯별 bootstyle을 편집할 수 있습니다. 자세한 내용은 [ttkbootstrap 프로젝트](./ttkbootstrap.md)를 참고하세요.
 
 반응형 아이콘 중심 명령 모음은 자주 쓰는 작업을 계속 보여 주고, 보조 작업은 오버플로 메뉴로 묶습니다. 접근 가능한 툴팁은 각 작업을 설명합니다. Inspector 섹션은 키보드 탐색 가능한 아이콘 탭이며, 진단 배지와 위젯 애니메이션용 **Motion** 탭을 제공합니다.
 
-Event Editor의 Python 코드 편집기는 자동완성을 제공합니다. 현재 handler 범위의 이름(위젯, Tk 변수, 비시각 컴포넌트, `event`·`value`·`result`·`self` 같은 handler 매개변수)은 입력하는 즉시 제안되고, 점(`.`) 뒤에는 위젯 타입에 맞는 Tk/ttk 메서드와 속성이 제안됩니다. `Ctrl+Space`로 언제든 목록을 열 수 있고, 편집기 위쪽 한 줄짜리 **In scope** 힌트에 현재 handler에서 사용할 수 있는 이름이 표시됩니다.
+Event Editor의 Python 코드 편집기는 입력하는 즉시 자동완성을 제공합니다(`Ctrl+Space` 또는 `Alt+/`로도 열 수 있고, 열린 목록은 `Escape`로 닫습니다). 현재 handler 범위의 이름(위젯, Tk 변수, 비시각 컴포넌트, `event`·`value`·`result`·`self` 같은 handler 매개변수, 생성된 `start_*`/`stop_*` 애니메이션 API, `messagebox.*`·`filedialog.*`·`colorchooser.*` 모듈)과 점(`.`) 뒤의 타입별 멤버가 제안됩니다. 편집기 위쪽 한 줄짜리 **In scope** 힌트에 현재 handler에서 사용할 수 있는 이름이 표시됩니다.
 
 번들 예제는 **Login**, **Settings Panel**, **Data Browser**와 ttkbootstrap 예제인 **Ttkbootstrap Login**, **Ttkbootstrap Widgets**, **Ttkbootstrap Dialogs**입니다. 수정하지 말아야 하는 고정 템플릿이 아니라 동작하는 참고 디자인으로 활용하세요.
 
@@ -53,6 +55,8 @@ Event Editor의 Python 코드 편집기는 자동완성을 제공합니다. 현�
 | `place` | 위젯별 x/y 좌표와 크기 | 픽셀 단위의 고정 배치 |
 | `grid` | 행·열 그리드 셀 | 표 형태의 대화상자와 폼 |
 | `pack` | side/fill/expand/padx/pady/anchor | 도구 모음처럼 한 방향으로 쌓는 유동 레이아웃 |
+
+`grid`은 행·열 그리드 셀에 더해 `gridRowWeight`/`gridColWeight` 늘어남 가중치를 지원합니다. 가중치는 부모의 `rowconfigure()`/`columnconfigure()`로 내보내져 창 크기 변경에 행·열이 늘어나는 비율을 정의합니다.
 
 `pack`은 위젯별 `packSide`(`top`/`bottom`/`left`/`right`), `packFill`, `packExpand`, `packPadX`, `packPadY`, `packAnchor`를 Layout 탭에서 편집합니다. 캔버스는 pack을 유연한 행·열(flex)로 근사하므로 Preview가 최종 렌더링입니다. pack의 쌓이는 순서는 형제 순서를 따르므로, pack으로 배치된 자식에는 z-order 동작이 제공되지 않습니다.
 
@@ -98,6 +102,7 @@ Python을 실행하는 작업에는 신뢰된 로컬 작업 영역이 필요합�
 
 | 버전 | 날짜 | 변경 사항 |
 |---|---|---|
+| v1.4 | 2026-09-14 | v1.8.0 기준으로 창 수준 옵션, grid 가중치, 자동완성 개선(입력 중 제안, `Alt+/`, 애니메이션 API·다이얼로그 모듈)을 반영했습니다. |
 | v1.3 | 2026-09-06 | v1.6.0 기준으로 pack 레이아웃, Event Editor 자동완성, 캔버스 근사 안내, ttkbootstrap 링크를 추가했습니다. |
 | v1.2 | 2026-07-21 | v1.3.1의 반응형 명령 모음과 키보드 탐색 Inspector 탭을 문서화했습니다. |
 | v1.1 | 2026-07-19 | v1.3.0 위젯 애니메이션 안내 링크를 추가했습니다. |

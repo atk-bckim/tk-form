@@ -2,8 +2,8 @@
 title: Getting Started
 document_type: User Guide
 created: 2026-07-16
-last_updated: 2026-09-06
-version: v1.3
+last_updated: 2026-09-14
+version: v1.4
 status: Published
 tags: [tk-form, vscode, tkinter, installation]
 ---
@@ -22,7 +22,7 @@ tags: [tk-form, vscode, tkinter, installation]
 
 ## Overview
 
-TK-Form is a VS Code extension for visually designing Tkinter interfaces. This guide applies to the public **v1.6.0** VSIX release and starts with an example project so you can confirm your local Python runtime before designing your own interface.
+TK-Form is a VS Code extension for visually designing Tkinter interfaces. This guide applies to the public **v1.8.0** VSIX release and starts with an example project so you can confirm your local Python runtime before designing your own interface.
 
 ## Requirements
 
@@ -35,14 +35,14 @@ Opening, editing, and saving `.tkform.json` files remains available in an untrus
 
 ## Install the VSIX
 
-1. Download `tk-form-1.6.0.vsix` from the [v1.6.0 release](https://github.com/atk-bckim/tk-form/releases/tag/v1.6.0), or choose another release that matches your needs.
+1. Download `tk-form-1.8.0.vsix` from the [v1.8.0 release](https://github.com/atk-bckim/tk-form/releases/tag/v1.8.0), or choose another release that matches your needs.
 2. In VS Code, open the Extensions view.
 3. Select **Install from VSIX...** from the `...` menu and choose the downloaded file.
 
 You can also use the command line:
 
 ```bash
-code --install-extension tk-form-1.6.0.vsix
+code --install-extension tk-form-1.8.0.vsix
 ```
 
 VSIX-installed extensions may not auto-update by default. Check the [Releases](https://github.com/atk-bckim/tk-form/releases) page when you want to update.
@@ -82,6 +82,7 @@ If this command fails, select another absolute Python executable in the designer
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.4 | 2026-09-14 | Updated the current release and installation artifact for v1.8.0. |
 | v1.3 | 2026-09-06 | Updated the current release and installation artifact for v1.6.0 and added the Python runtime requirements and ttkbootstrap examples. |
 | v1.2 | 2026-07-21 | Updated the current release and installation artifact for v1.3.1. |
 | v1.1 | 2026-07-19 | Updated the install artifact and links for the v1.3.0 animation release. |

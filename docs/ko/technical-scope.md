@@ -2,8 +2,8 @@
 title: 기술 범위
 document_type: Reference
 created: 2026-07-16
-last_updated: 2026-09-06
-version: v1.3
+last_updated: 2026-09-14
+version: v1.4
 status: Published
 tags: [tk-form, architecture, tkinter, scope]
 ---
@@ -24,7 +24,7 @@ tags: [tk-form, architecture, tkinter, scope]
 
 ## 릴리스 범위
 
-이 문서는 공개 **TK-Form v1.6.0** VSIX 릴리스를 설명합니다. TK-Form은 실용적인 Tkinter 애플리케이션을 위한 시각적 저작·코드 생성 도구이며, 범용 IDE나 손으로 작성한 Python을 양방향으로 편집하는 도구는 아닙니다.
+이 문서는 공개 **TK-Form v1.8.0** VSIX 릴리스를 설명합니다. TK-Form은 실용적인 Tkinter 애플리케이션을 위한 시각적 저작·코드 생성 도구이며, 범용 IDE나 손으로 작성한 Python을 양방향으로 편집하는 도구는 아닙니다.
 
 ## 아키텍처와 데이터 흐름
 
@@ -52,14 +52,14 @@ tags: [tk-form, architecture, tkinter, scope]
 
 모델이 지원하는 항목은 다음과 같습니다.
 
-- 루트 창의 크기, 배경, 크기 조정 가능 여부, ttk 테마
-- `place`, `grid`, `pack` 레이아웃 매니저. 같은 부모의 자식은 하나의 매니저를 사용해야 하며 `Toplevel`, `PanedWindow`, `TtkPanedWindow` 아래는 예외입니다.
+- 루트 창의 크기, 배경, 크기 조정 가능 여부, ttk 테마, 창 제목, 이미지 리소스 기반 창 아이콘, 최소 창 크기, 시작 위치(`default`/`screenCenter`)
+- `place`, `grid`, `pack` 레이아웃 매니저. 같은 부모의 자식은 하나의 매니저를 사용해야 하며 `Toplevel`, `PanedWindow`, `TtkPanedWindow` 아래는 예외입니다. `grid`는 행·열 늘어남 가중치(`gridRowWeight`/`gridColWeight`, 부모의 `rowconfigure()`/`columnconfigure()`로 내보냄)를 지원합니다.
 - `command` 핸들러와 `<Button-1>`, `<Key>` 등의 Tk 바인딩 시퀀스를 위한 Event Editor. 이벤트 핸들러 이름은 PEP 3131 유니코드 식별자(예: `저장하기`, `保存设置`)를 허용하며 NFKC 안정성, 비예약어, 고유성 요건은 유지됩니다. 위젯, Tk 변수, 애니메이션, 비시각 컴포넌트 이름은 여전히 ASCII 식별자입니다.
 - 메뉴 계층, 메뉴 명령, 단축키 바인딩
 - `StringVar`, `IntVar`, `DoubleVar`, `BooleanVar` 선언
 - 위젯 ID로 참조하는 Base64 이미지 리소스
-- `Timer`, `FileDialog`, `ColorChooser`, `MessageBox` 비시각 컴포넌트. ttkbootstrap 프로젝트에서는 `TtkMessagebox`, `Querybox`, `DatePickerDialog`, `ColorPickerDialog`, `ToastNotification`, `ToolTip`가 추가됩니다.
-- `slide`, `shake`, `bounce`, `pulse`, `color` preset과 load/click/hover/focus/manual trigger를 사용하는 위젯 애니메이션
+- `Timer`, `FileDialog`, `ColorChooser`, `MessageBox`, `BackgroundWorker`, `ThreadPool` 비시각 컴포넌트. ttkbootstrap 프로젝트에서는 `TtkMessagebox`, `Querybox`, `DatePickerDialog`, `ColorPickerDialog`, `ToastNotification`, `ToolTip`가 추가됩니다. `BackgroundWorker`는 이벤트 코드를 데몬 백그라운드 스레드에서 실행하고 `completed` handler로 `{ok, value, error}` 결과를 UI 스레드에 전달하며 협력적 취소(`run`/`cancel`/`cancelled`/`is_running`)를 제공합니다. `ThreadPool`은 `concurrent.futures.ThreadPoolExecutor`를 사용하며 `submit`/`shutdown`과 `maxWorkers`(1–64) 속성을 제공합니다.
+- `slide`, `shake`, `bounce`, `pulse`, `color`, `fill`, `grow` preset과 load/click/hover/focus/manual trigger를 사용하는 위젯 애니메이션
 - `bindings.command`를 사용하는 표준 Scrollbar 바인딩. 이전 호환을 위해 `xscrollcommand`, `yscrollcommand`도 허용
 
 Scrollbar의 가로 대상은 `Text`, `Listbox`, `Entry`, `Treeview`, `Canvas`이고, 세로 대상은 `Text`, `Listbox`, `Treeview`, `Canvas`입니다.
@@ -77,6 +77,7 @@ Scrollbar의 가로 대상은 `Text`, `Listbox`, `Entry`, `Treeview`, `Canvas`�
 | 일반 컨트롤 | `Button`, `Label`, `Entry`, `Text`, `Checkbutton`, `Radiobutton`, `Listbox`, `Scale`, `OptionMenu`, `Spinbox`, `Scrollbar`, `Menubutton`, `Message` |
 | 컨테이너와 레이아웃 | `Frame`, `LabelFrame`, `Canvas`, `PanedWindow`, `TtkPanedWindow`, `Notebook`, `Toplevel` |
 | ttk 추가 위젯 | `Progressbar`, `Combobox`, `Treeview`, `Sizegrip`, `Separator` |
+| 차트 | `Chart` (bar/line/pie. 기본 `canvas` 렌더러는 서드파티 의존성 없이 `tk.Canvas`에 그리며, 선택적 `matplotlib` 렌더러는 matplotlib 패키지를 요구합니다) |
 | ttkbootstrap provider 위젯 (ttkbootstrap 프로젝트 전용) | `DateEntry`, `LabeledScale`, `Meter`, `Floodgauge`, `Tableview`, `ScrolledText`, `ScrolledFrame` |
 
 `Notebook`, `Progressbar`, `Combobox`, `Treeview`, `Sizegrip`, `Separator`, `TtkPanedWindow`은 ttk 생성자를 사용합니다. 지원 속성은 클래식 Tk 위젯과 다르며, 예를 들어 `bg`, `fg`, `padx`, `pady` 같은 클래식 시각 속성은 같은 방식으로 지원되지 않습니다. ttkbootstrap 프로젝트에서는 위젯마다 실제 백엔드 모듈(ttk 또는 클래식 tk 폴백)을 따라가므로, `Text`, `Canvas`, `Listbox`, `PanedWindow`, `Message` 같은 클래식 폴백 위젯은 tk 스타일 속성을 그대로 노출합니다.
@@ -107,6 +108,7 @@ Python을 실행하는 작업에는 신뢰된 로컬 작업 영역이 필요합�
 - `Entry`는 가로 Scrollbar 바인딩만 지원합니다.
 - 공간 애니메이션은 생성 Python에서 실제로 `place()`되는 위젯만 지원합니다. 실제 `Notebook` 탭, `grid` 위젯, `Toplevel`, pane으로 관리되는 위젯은 대상이 될 수 없습니다.
 - 색상 애니메이션은 대상 위젯이 안전하게 지원하는 `bg` 또는 `fg` 속성에만 적용됩니다. ttk 테마 위젯(ttkbootstrap Button, Label, Entry, Frame 등)의 color 애니메이션은 검증에서 거부됩니다.
+- Chart의 캔버스 근사는 SVG 기반 미리보기이며 최종 렌더링은 Preview가 담당합니다. `matplotlib` 렌더러를 선택하면 생성된 앱을 실행하는 런타임에 matplotlib 패키지가 필요합니다.
 - 이벤트 핸들러 이름은 유니코드(PEP 3131) 식별자를 허용하지만 위젯, Tk 변수, 애니메이션, 비시각 컴포넌트 이름은 ASCII 식별자로 유지됩니다.
 - 제품은 실용적이고 자주 사용하는 단일 창 폼과 내부 도구에 초점을 둡니다. 자동 라이선스, 인앱 계정 관리, 광범위한 엔터프라이즈 셀프서비스는 포함하지 않습니다.
 
@@ -124,6 +126,7 @@ Python을 실행하는 작업에는 신뢰된 로컬 작업 영역이 필요합�
 
 | 버전 | 날짜 | 변경 사항 |
 |---|---|---|
+| v1.4 | 2026-09-14 | v1.8.0 기준으로 Chart 위젯, BackgroundWorker/ThreadPool 컴포넌트, 창 수준 옵션, grid 가중치, `fill`/`grow` preset을 반영했습니다. |
 | v1.3 | 2026-09-06 | v1.6.0 기준으로 schema v4, pack 레이아웃, ttkbootstrap provider 위젯, Python 런타임 기준, 유니코드 핸들러명을 반영했습니다. |
 | v1.2 | 2026-07-21 | v1.3.1과 반응형 명령·Inspector 작업 흐름을 반영했습니다. |
 | v1.1 | 2026-07-19 | v1.3.0 schema v3 애니메이션 기능과 한계를 반영했습니다. |

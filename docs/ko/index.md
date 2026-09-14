@@ -1,11 +1,11 @@
 ---
-last_updated: 2026-09-06
-version: v1.3
+last_updated: 2026-09-14
+version: v1.4
 ---
 
 # TK-Form 문서
 
-> TK-Form for VS Code v1.6.0의 사용자 문서입니다. 공개 VSIX 릴리스의 사용 방법, 지원 범위, 현재 기술적 경계를 설명합니다.
+> TK-Form for VS Code v1.8.0의 사용자 문서입니다. 공개 VSIX 릴리스의 사용 방법, 지원 범위, 현재 기술적 경계를 설명합니다.
 
 ## 사용자 가이드
 

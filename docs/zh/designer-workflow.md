@@ -2,8 +2,8 @@
 title: 设计器工作流
 document_type: User Guide
 created: 2026-09-06
-last_updated: 2026-09-06
-version: v1.0
+last_updated: 2026-09-14
+version: v1.1
 status: Published
 tags: [tk-form, workflow, export, preview]
 ---
@@ -25,11 +25,13 @@ tags: [tk-form, workflow, export, preview]
 
 `*.tkform.json` 自定义编辑器提供放置 Tkinter 与 ttk 部件的画布、属性检查器（Inspector）、对象树，以及菜单、Tk 变量、图片资源和非可视组件的控制区。常用的设计操作包括拖拽、调整大小、对齐、吸附、缩放、多选，以及编辑属性和事件代码。
 
+在 Inspector 的 **Window** 区可以设置窗口标题、来自任意图片资源的窗口图标、最小窗口尺寸，以及启动位置（默认或屏幕居中）。画布上可用 `Ctrl+X` 剪切部件，状态栏中的快捷键速查表列出全部键绑定。
+
 每个项目都会选择自己的 UI 工具包（toolkit）。默认为标准 Tkinter；将项目设置为 **ttkbootstrap** 后即可编辑主题与部件级 bootstyle。详见 [ttkbootstrap 项目](./ttkbootstrap.md)。
 
 响应式的图标化命令栏让常用操作始终可见，次要操作则归入溢出菜单。每个操作都有可供访问性工具识别的提示。Inspector 的各个分区是可用键盘导航的图标标签页，并带有诊断徽标和用于部件动画的 **Motion** 标签页。
 
-Event Editor 的 Python 代码编辑器提供自动补全。当前 handler 作用域内的名称（部件、Tk 变量、非可视组件，以及 `event`、`value`、`result`、`self` 等 handler 参数）会随输入实时建议；输入点号（`.`）后，编辑器会根据部件类型建议对应的 Tk/ttk 方法与属性。随时可用 `Ctrl+Space` 打开补全列表，编辑器上方的一行 **In scope** 提示会列出当前 handler 中可用的名称。
+Event Editor 的 Python 代码编辑器会在输入时即时提供自动补全（`Ctrl+Space` 和 `Alt+/` 也可打开列表，`Escape` 只关闭已打开的补全弹层）。当前 handler 作用域内的名称（部件、Tk 变量、非可视组件，以及 `event`、`value`、`result`、`self` 等 handler 参数、生成的 `start_*`/`stop_*` 动画 API，还有 `messagebox.*`、`filedialog.*`、`colorchooser.*` 模块）都会随输入实时建议；输入点号（`.`）后，编辑器会根据部件类型建议对应的成员。编辑器上方的一行 **In scope** 提示会列出当前 handler 中可用的名称。
 
 内置示例包括 **Login**、**Settings Panel**、**Data Browser**，以及 ttkbootstrap 示例 **Ttkbootstrap Login**、**Ttkbootstrap Widgets** 和 **Ttkbootstrap Dialogs**。请把它们当作可运行的参考设计，而不是必须保持原样的模板。
 
@@ -51,7 +53,7 @@ Event Editor 的 Python 代码编辑器提供自动补全。当前 handler 作�
 | 管理器 | 配置方式 | 适用场景 |
 |---|---|---|
 | `place` | 部件级 x/y 坐标与尺寸 | 基于像素的固定摆放 |
-| `grid` | 行列网格单元 | 表单类对话框与界面 |
+| `grid` | 行列网格单元，以及 `gridRowWeight`/`gridColWeight` 拉伸权重（以父容器的 `rowconfigure()`/`columnconfigure()` 导出） | 表单类对话框与界面 |
 | `pack` | side/fill/expand/padx/pady/anchor | 工具栏等单向堆叠的流式布局 |
 
 `pack` 的部件级 `packSide`（`top`/`bottom`/`left`/`right`）、`packFill`、`packExpand`、`packPadX`、`packPadY`、`packAnchor` 可在 Layout 标签页中编辑。画布将 pack 近似为弹性行列（flexbox）布局，因此 Preview 才是最终渲染效果。pack 的堆叠顺序遵循兄弟部件顺序，因此 pack 子部件不提供 z-order 操作。
@@ -98,4 +100,5 @@ Event Editor 的 Python 代码编辑器提供自动补全。当前 handler 作�
 
 | 版本 | 日期 | 变更 |
 |---|---|---|
+| v1.1 | 2026-09-14 | 以 v1.8.0 为准，加入窗口级选项、grid 拉伸权重与自动补全改进（输入即提示、`Alt+/`、动画 API 与对话框模块）。 |
 | v1.0 | 2026-09-06 | 以 TK-Form v1.6.0 为准，将韩文设计器工作流指南翻译为简体中文并首次发布。 |

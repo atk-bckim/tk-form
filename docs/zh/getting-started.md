@@ -2,8 +2,8 @@
 title: 快速上手
 document_type: User Guide
 created: 2026-09-06
-last_updated: 2026-09-06
-version: v1.0
+last_updated: 2026-09-14
+version: v1.1
 status: Published
 tags: [tk-form, vscode, tkinter, installation]
 ---
@@ -22,7 +22,7 @@ tags: [tk-form, vscode, tkinter, installation]
 
 ## 概述
 
-TK-Form 是一个用于可视化设计 Tkinter 界面的 VS Code 扩展。本指南以公开的 **v1.6.0** VSIX 发布版本为准，先通过示例项目确认本地 Python 运行时，再开始设计自己的界面。
+TK-Form 是一个用于可视化设计 Tkinter 界面的 VS Code 扩展。本指南以公开的 **v1.8.0** VSIX 发布版本为准，先通过示例项目确认本地 Python 运行时，再开始设计自己的界面。
 
 ## 系统要求
 
@@ -35,14 +35,14 @@ TK-Form 是一个用于可视化设计 Tkinter 界面的 VS Code 扩展。本指
 
 ## 安装 VSIX
 
-1. 从 [v1.6.0 发布页](https://github.com/atk-bckim/tk-form/releases/tag/v1.6.0)下载 `tk-form-1.6.0.vsix`，或选择其他需要的发布版本。
+1. 从 [v1.8.0 发布页](https://github.com/atk-bckim/tk-form/releases/tag/v1.8.0)下载 `tk-form-1.8.0.vsix`，或选择其他需要的发布版本。
 2. 在 VS Code 中打开 Extensions 视图。
 3. 在 `...` 菜单中选择 **Install from VSIX...**，然后选择下载的文件。
 
 也可以通过命令行安装：
 
 ```bash
-code --install-extension tk-form-1.6.0.vsix
+code --install-extension tk-form-1.8.0.vsix
 ```
 
 通过 VSIX 安装的扩展默认可能不会自动更新。需要更新时，请查看 [Releases](https://github.com/atk-bckim/tk-form/releases) 页面。
@@ -82,4 +82,5 @@ python3 -c "import tkinter; print(tkinter.TkVersion)"
 
 | 版本 | 日期 | 变更 |
 |---|---|---|
+| v1.1 | 2026-09-14 | 当前发布版本与安装文件更新到 v1.8.0。 |
 | v1.0 | 2026-09-06 | 以 TK-Form v1.6.0 为准，将韩文快速上手指南翻译为简体中文并首次发布。 |

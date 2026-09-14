@@ -2,8 +2,8 @@
 title: 部件动画
 document_type: User Guide
 created: 2026-09-06
-last_updated: 2026-09-06
-version: v1.0
+last_updated: 2026-09-14
+version: v1.1
 status: Published
 tags: [tk-form, animation, tkinter, preview, export]
 ---
@@ -46,7 +46,7 @@ TK-Form 提供声明式部件动画，并通过 Tkinter 的 `after` 调度执行
 | Name | 唯一的 Python 标识符 | 用于 `start_<name>()`、`stop_<name>()` API 的名称。 |
 | Duration | 大于 0 且不超过 600,000 ms | 单次播放时长。 |
 | Delay | 0–86,400,000 ms | 开始播放前的等待时间。 |
-| Easing | `linear`, `easeIn`, `easeOut`, `easeInOut` | 进度缓动曲线。 |
+| Easing | `linear`, `easeIn`, `easeOut`, `easeInOut`, `backOut`, `elasticOut`, `bounceOut` | 进度缓动曲线。 |
 | Repeat count | 1–10,000 | 整段播放的重复次数。 |
 | Infinite repeat | 开/关 | 开启后持续重复，直到显式停止。 |
 
@@ -61,8 +61,10 @@ TK-Form 提供声明式部件动画，并通过 Tkinter 的 `after` 调度执行
 | `bounce` | `direction`: left/right/up/down, `distance`: 0–1,000,000, `cycles`: 1–10,000 | 向指定方向弹起并回到最终位置。 |
 | `pulse` | `scale`: 大于 0 且不超过 1,000 | 以部件中心为基准放大后恢复原尺寸。 |
 | `color` | `property`: bg/fg, `to`: `#RGB` 或 `#RRGGBB` | 从当前颜色插值到指定颜色。 |
+| `fill` | `from`: 数字（可选，默认为当前值）、`to`: 数字（必填），±1,000,000 | 将 `Progressbar`/`Floodgauge` 的填充值动画到目标值。 |
+| `grow` | 无 | 部件从零尺寸放大到设计尺寸，中心保持不变。 |
 
-`slide`、`shake`、`bounce`、`pulse` 只支持以 `place()` 布局的部件。`color` 只能用于安全支持所选 `bg` 或 `fg` 属性的经典 Tk 部件。ttk 主题部件（ttkbootstrap 的 Button、Label、Entry、Frame 等）没有 `bg`/`fg` 选项，因此 `color` preset 会在验证时被拒绝。在 ttkbootstrap 项目中，`Text`、`Canvas`、`Listbox` 等经典 Tk 部件仍然可以使用 `color`。
+`slide`、`shake`、`bounce`、`pulse`、`grow` 只支持以 `place()` 布局的部件。`fill` 只能用于 `Progressbar` 或 `Floodgauge` 目标。`color` 只能用于安全支持所选 `bg` 或 `fg` 属性的经典 Tk 部件。ttk 主题部件（ttkbootstrap 的 Button、Label、Entry、Frame 等）没有 `bg`/`fg` 选项，因此 `color` preset 会在验证时被拒绝。在 ttkbootstrap 项目中，`Text`、`Canvas`、`Listbox` 等经典 Tk 部件仍然可以使用 `color`。
 
 ## Trigger 与手动控制
 
@@ -122,4 +124,5 @@ stop_show_panel()
 
 | 版本 | 日期 | 变更 |
 |---|---|---|
+| v1.1 | 2026-09-14 | 以 v1.8.0 为准，加入 `fill`/`grow` preset 与 `backOut`/`elasticOut`/`bounceOut` 缓动曲线。 |
 | v1.0 | 2026-09-06 | 以 TK-Form v1.6.0 为准，将韩文部件动画指南翻译为简体中文并首次发布。 |

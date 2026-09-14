@@ -2,8 +2,8 @@
 title: 技术范围
 document_type: Reference
 created: 2026-09-06
-last_updated: 2026-09-06
-version: v1.0
+last_updated: 2026-09-14
+version: v1.1
 status: Published
 tags: [tk-form, architecture, tkinter, scope]
 ---
@@ -24,7 +24,7 @@ tags: [tk-form, architecture, tkinter, scope]
 
 ## 发布范围
 
-本文档描述公开的 **TK-Form v1.6.0** VSIX 发布版本。TK-Form 是面向实用 Tkinter 应用的可视化创作与代码生成工具，不是通用 IDE，也不提供与手写 Python 的双向编辑。
+本文档描述公开的 **TK-Form v1.8.0** VSIX 发布版本。TK-Form 是面向实用 Tkinter 应用的可视化创作与代码生成工具，不是通用 IDE，也不提供与手写 Python 的双向编辑。
 
 ## 架构与数据流
 
@@ -52,14 +52,14 @@ tags: [tk-form, architecture, tkinter, scope]
 
 模型支持：
 
-- 根窗口尺寸、背景、是否可调整大小、ttk 主题选择。
-- `place`、`grid`、`pack` 三种布局管理器。同一父容器的子部件必须使用同一种管理器，`Toplevel`、`PanedWindow`、`TtkPanedWindow` 之下除外。
+- 根窗口尺寸、背景、是否可调整大小、ttk 主题选择，以及窗口标题、来自图片资源的窗口图标、最小窗口尺寸和启动位置（`default`/`screenCenter`）。
+- `place`、`grid`、`pack` 三种布局管理器。同一父容器的子部件必须使用同一种管理器，`Toplevel`、`PanedWindow`、`TtkPanedWindow` 之下除外。`grid` 支持行列拉伸权重（`gridRowWeight`/`gridColWeight`，以父容器的 `rowconfigure()`/`columnconfigure()` 导出）。
 - 用于 `command` handler 与 `<Button-1>`、`<Key>` 等 Tk 绑定序列的 Event Editor。事件 handler 名称遵循 PEP 3131，允许 Unicode 标识符（例如 `저장하기`、`保存设置`），但仍须满足 NFKC 稳定、非保留字且唯一的要求。部件、Tk 变量、动画与非可视组件名称仍限 ASCII 标识符。
 - 菜单层级、菜单命令与快捷键绑定。
 - `StringVar`、`IntVar`、`DoubleVar`、`BooleanVar` 声明。
 - 通过部件 ID 引用的 Base64 图片资源。
-- `Timer`、`FileDialog`、`ColorChooser`、`MessageBox` 非可视组件；ttkbootstrap 项目额外提供 `TtkMessagebox`、`Querybox`、`DatePickerDialog`、`ColorPickerDialog`、`ToastNotification`、`ToolTip`。
-- 使用 `slide`、`shake`、`bounce`、`pulse`、`color` preset 与 load/click/hover/focus/manual trigger 的部件动画。
+- `Timer`、`FileDialog`、`ColorChooser`、`MessageBox`、`BackgroundWorker`、`ThreadPool` 非可视组件；ttkbootstrap 项目额外提供 `TtkMessagebox`、`Querybox`、`DatePickerDialog`、`ColorPickerDialog`、`ToastNotification`、`ToolTip`。`BackgroundWorker` 在守护后台线程上运行事件代码，并通过 UI 线程的 `completed` handler 返回 `{ok, value, error}` 结果，支持协作式取消（`run`/`cancel`/`cancelled`/`is_running`）；`ThreadPool` 使用 `concurrent.futures.ThreadPoolExecutor`，提供 `submit`/`shutdown` 与 `maxWorkers`（1–64）属性。
+- 使用 `slide`、`shake`、`bounce`、`pulse`、`color`、`fill`、`grow` preset 与 load/click/hover/focus/manual trigger 的部件动画。
 - 通过 `bindings.command` 的标准 Scrollbar 绑定；为兼容起见也接受 `xscrollcommand`、`yscrollcommand`。
 
 Scrollbar 的横向目标为 `Text`、`Listbox`、`Entry`、`Treeview`、`Canvas`；纵向目标为 `Text`、`Listbox`、`Treeview`、`Canvas`。
@@ -77,6 +77,7 @@ Scrollbar 的横向目标为 `Text`、`Listbox`、`Entry`、`Treeview`、`Canvas
 | 常规控件 | `Button`, `Label`, `Entry`, `Text`, `Checkbutton`, `Radiobutton`, `Listbox`, `Scale`, `OptionMenu`, `Spinbox`, `Scrollbar`, `Menubutton`, `Message` |
 | 容器与布局 | `Frame`, `LabelFrame`, `Canvas`, `PanedWindow`, `TtkPanedWindow`, `Notebook`, `Toplevel` |
 | ttk 附加部件 | `Progressbar`, `Combobox`, `Treeview`, `Sizegrip`, `Separator` |
+| 图表 | `Chart`（bar/line/pie。默认 `canvas` 渲染器通过普通 `tk.Canvas` 绘制，无第三方依赖；可选 `matplotlib` 渲染器需要 matplotlib 包） |
 | ttkbootstrap provider 部件（仅限 ttkbootstrap 项目） | `DateEntry`, `LabeledScale`, `Meter`, `Floodgauge`, `Tableview`, `ScrolledText`, `ScrolledFrame` |
 
 `Notebook`、`Progressbar`、`Combobox`、`Treeview`、`Sizegrip`、`Separator`、`TtkPanedWindow` 使用 ttk 构造器。它们支持的属性与经典 Tk 部件不同，例如 `bg`、`fg`、`padx`、`pady` 等经典视觉属性并不以相同方式支持。在 ttkbootstrap 项目中，Inspector 会跟随每个部件的实际后端模块，因此回退为经典 tk 的 `Text`、`Canvas`、`Listbox`、`PanedWindow`、`Message` 等部件会显示其 tk 样式属性。
@@ -107,6 +108,7 @@ Scrollbar 的横向目标为 `Text`、`Listbox`、`Entry`、`Treeview`、`Canvas
 - `Entry` 只支持横向 Scrollbar 绑定。
 - 空间类动画只能用于生成 Python 中实际以 `place()` 布局的部件。真实的 `Notebook` 标签页、`grid` 部件、`Toplevel` 以及窗格管理的部件不能作为目标。
 - 颜色动画只应用于目标部件安全支持的 `bg` 或 `fg` 属性；在 ttk 主题部件（ttkbootstrap 的 Button、Label、Entry、Frame 等）上会被拒绝。
+- Chart 的画布近似为 SVG 草图预览，最终渲染以 Preview 为准。选择 `matplotlib` 渲染器时，运行生成应用的运行时需要 matplotlib 包。
 - 事件 handler 名称允许 Unicode（PEP 3131）标识符，但部件、Tk 变量、动画与非可视组件名称仍为 ASCII。
 - 产品聚焦于实用、常用的单窗口表单与内部工具；不包含自动授权、应用内账户管理或大范围的企业自助服务。
 
@@ -124,4 +126,5 @@ Scrollbar 的横向目标为 `Text`、`Listbox`、`Entry`、`Treeview`、`Canvas
 
 | 版本 | 日期 | 变更 |
 |---|---|---|
+| v1.1 | 2026-09-14 | 以 v1.8.0 为准，加入 Chart 部件、BackgroundWorker/ThreadPool 组件、窗口级选项、grid 拉伸权重与 `fill`/`grow` preset。 |
 | v1.0 | 2026-09-06 | 以 TK-Form v1.6.0 为准，将韩文技术范围参考翻译为简体中文并首次发布。 |

@@ -100,7 +100,7 @@ If you don't need a stable method name, omit `handlerName` and let codegen produ
 
 ## Code can reference widgets, Tk variables, and components by bare name
 
-Inside `code`, **widgets, Tk variables, and non-visual components are in scope as plain Python names** (no `self.` prefix needed). The codegen guarantees this in every export mode:
+Inside `code`, **widgets, Tk variables, and non-visual components are in scope as plain Python names** (no `self.` prefix needed), alongside the `messagebox.*`, `filedialog.*`, and `colorchooser.*` dialog modules. The codegen guarantees this in every export mode:
 
 - **Function export**: widgets and variables are local variables in `create_window()`, and your handler is a nested function that closes over them.
 - **Class export**: the handler is a method, but the codegen prepends alias lines (`send_entry = self.send_entry`, `filter_var = self.filter_var`, ...) at the top of the method body, so the rest of your code can use bare names too.

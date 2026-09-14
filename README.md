@@ -29,13 +29,14 @@ Hand-writing Tkinter layout means guessing pixel coordinates, fighting `pack()` 
 - **ttkbootstrap 2.x support** — 30 themes, per-widget `bootstyle`, seven provider widgets (Meter, Tableview, DateEntry, …), and themed dialogs, toast, and tooltips.
 - **Widget animations** — seven presets (`slide`, `shake`, `bounce`, `pulse`, `color`, `fill`, `grow`) with triggers, easing curves, and generated `start_*()`/`stop_*()` APIs.
 - **Event Editor with autocompletion** — inline Python handlers with in-scope suggestions for widgets, Tk variables, and generated APIs.
+- **Background threading & charts** — run handler code off the UI thread with `BackgroundWorker`/`ThreadPool` components, and render bar/line/pie charts with zero third-party dependencies (optional matplotlib renderer).
 - **AI-friendly** — a readable JSON project format plus a ready-made AI skill for Codex, Copilot, Cursor, and other coding agents.
 
 ## Supported Widgets
 
-Classic Tk: `Button`, `Label`, `Entry`, `Text`, `Checkbutton`, `Radiobutton`, `Listbox`, `Scale`, `OptionMenu`, `Spinbox`, `Scrollbar`, `Menubutton`, `Message` · Containers: `Frame`, `LabelFrame`, `Canvas`, `PanedWindow`, `Notebook`, `Toplevel` · ttk: `Progressbar`, `Combobox`, `Treeview`, `Sizegrip`, `Separator`, `TtkPanedWindow` · ttkbootstrap providers: `DateEntry`, `LabeledScale`, `Meter`, `Floodgauge`, `Tableview`, `ScrolledText`, `ScrolledFrame`.
+Classic Tk: `Button`, `Label`, `Entry`, `Text`, `Checkbutton`, `Radiobutton`, `Listbox`, `Scale`, `OptionMenu`, `Spinbox`, `Scrollbar`, `Menubutton`, `Message` · Containers: `Frame`, `LabelFrame`, `Canvas`, `PanedWindow`, `Notebook`, `Toplevel` · ttk: `Progressbar`, `Combobox`, `Treeview`, `Sizegrip`, `Separator`, `TtkPanedWindow` · Charts: `Chart` (bar/line/pie) · ttkbootstrap providers: `DateEntry`, `LabeledScale`, `Meter`, `Floodgauge`, `Tableview`, `ScrolledText`, `ScrolledFrame`.
 
-Non-visual components: `Timer`, `FileDialog`, `ColorChooser`, `MessageBox`, plus ttkbootstrap `TtkMessagebox`, `Querybox`, `DatePickerDialog`, `ColorPickerDialog`, `ToastNotification`, and `ToolTip`. See the full [technical scope](./docs/en/technical-scope.md).
+Non-visual components: `Timer`, `FileDialog`, `ColorChooser`, `MessageBox`, `BackgroundWorker`, `ThreadPool`, plus ttkbootstrap `TtkMessagebox`, `Querybox`, `DatePickerDialog`, `ColorPickerDialog`, `ToastNotification`, and `ToolTip`. See the full [technical scope](./docs/en/technical-scope.md).
 
 ## Installation
 

@@ -1,11 +1,11 @@
 ---
-last_updated: 2026-09-06
-version: v1.3
+last_updated: 2026-09-14
+version: v1.4
 ---
 
 # TK-Form Documentation
 
-Choose your language to read the user documentation for the current public release, **v1.6.0**. The Korean, English, and Simplified Chinese documentation sets cover the same features, technical scope, limits, and support workflow.
+Choose your language to read the user documentation for the current public release, **v1.8.0**. The Korean, English, and Simplified Chinese documentation sets cover the same features, technical scope, limits, and support workflow.
 
 ## Languages
 

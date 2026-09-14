@@ -204,7 +204,7 @@
             "TtkPanedWindow", "OptionMenu", "Spinbox", "Scrollbar", "Separator",
             "Notebook", "Toplevel", "Progressbar", "Combobox", "Treeview",
             "Sizegrip", "Menubutton", "Message", "DateEntry", "LabeledScale",
-            "Meter", "Floodgauge", "Tableview", "ScrolledText", "ScrolledFrame"
+            "Meter", "Floodgauge", "Tableview", "ScrolledText", "ScrolledFrame", "Chart"
           ],
           "description": "Widget type. Maps directly to a Tkinter widget class. ttk widgets (Notebook, Progressbar, Combobox, Treeview, Sizegrip, Separator, TtkPanedWindow) cannot use bg/fg/padx/pady/etc. See references/widgets.md."
         },
@@ -496,7 +496,8 @@
         "id": { "type": "string", "minLength": 1 },
         "type": {
           "type": "string",
-          "enum": ["Timer", "FileDialog", "ColorChooser", "MessageBox", "TtkMessagebox", "Querybox", "DatePickerDialog", "ColorPickerDialog", "ToastNotification", "ToolTip"],
+          "enum": ["Timer", "FileDialog", "ColorChooser", "MessageBox", "TtkMessagebox", "Querybox", "DatePickerDialog", "ColorPickerDialog", "ToastNotification", "ToolTip",
+                   "BackgroundWorker", "ThreadPool"],
           "description": "See references/non-visuals.md. FileDialog has a special `filetypes` prop parsing rule. TtkMessagebox, Querybox, DatePickerDialog, ColorPickerDialog, ToastNotification, and ToolTip require toolkit ttkbootstrap."
         },
         "name": { "$ref": "#/definitions/pythonIdentifier" },

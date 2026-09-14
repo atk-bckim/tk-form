@@ -2,8 +2,8 @@
 title: 위젯 애니메이션
 document_type: User Guide
 created: 2026-07-19
-last_updated: 2026-09-06
-version: v1.2
+last_updated: 2026-09-14
+version: v1.3
 status: Published
 tags: [tk-form, animation, tkinter, preview, export]
 ---
@@ -46,7 +46,7 @@ TK-Form은 위젯에 선언형 애니메이션을 추가하고 Tkinter의 `after
 | Name | 고유한 Python 식별자 | `start_<name>()`, `stop_<name>()` API 이름에 사용됩니다. |
 | Duration | 0보다 크고 최대 600,000 ms | 한 번 재생하는 시간입니다. |
 | Delay | 0–86,400,000 ms | 재생을 시작하기 전 대기 시간입니다. |
-| Easing | `linear`, `easeIn`, `easeOut`, `easeInOut` | 진행률 곡선입니다. |
+| Easing | `linear`, `easeIn`, `easeOut`, `easeInOut`, `backOut`, `elasticOut`, `bounceOut` | 진행률 곡선입니다. |
 | Repeat count | 1–10,000 | 전체 재생 횟수입니다. |
 | Infinite repeat | 켜기/끄기 | 켜면 명시적으로 중지할 때까지 반복합니다. |
 
@@ -61,8 +61,10 @@ TK-Form은 위젯에 선언형 애니메이션을 추가하고 Tkinter의 `after
 | `bounce` | `direction`: left/right/up/down, `distance`: 0–1,000,000, `cycles`: 1–10,000 | 지정 방향으로 튀었다가 원래 위치로 돌아옵니다. |
 | `pulse` | `scale`: 0보다 크고 최대 1,000 | 위젯 중심을 기준으로 확대했다가 원래 크기로 돌아옵니다. |
 | `color` | `property`: bg/fg, `to`: `#RGB` 또는 `#RRGGBB` | 현재 색상에서 지정 색상으로 보간합니다. |
+| `fill` | `from`: 숫자(선택, 기본 현재 값), `to`: 숫자(필수), ±1,000,000 | `Progressbar`/`Floodgauge`의 채워진 값을 목표치까지 애니메이션합니다. |
+| `grow` | 없음 | 위젯이 0 크기에서 설계된 크기로, 같은 중심점에서 커집니다. |
 
-`slide`, `shake`, `bounce`, `pulse`는 `place()`로 배치되는 위젯만 지원합니다. `color`는 선택한 `bg` 또는 `fg` 속성을 안전하게 지원하는 클래식 Tk 위젯에서만 사용할 수 있습니다. ttk 테마 위젯(ttkbootstrap의 Button, Label, Entry, Frame 등)은 `bg`/`fg` 옵션이 없어 `color` preset이 검증에서 거부됩니다. ttkbootstrap 프로젝트에서도 `Text`, `Canvas`, `Listbox` 같은 클래식 Tk 위젯은 `color`를 사용할 수 있습니다.
+`slide`, `shake`, `bounce`, `pulse`, `grow`는 `place()`로 배치되는 위젯만 지원합니다. `fill`은 `Progressbar` 또는 `Floodgauge` 대상에만 사용할 수 있습니다. `color`는 선택한 `bg` 또는 `fg` 속성을 안전하게 지원하는 클래식 Tk 위젯에서만 사용할 수 있습니다. ttk 테마 위젯(ttkbootstrap의 Button, Label, Entry, Frame 등)은 `bg`/`fg` 옵션이 없어 `color` preset이 검증에서 거부됩니다. ttkbootstrap 프로젝트에서도 `Text`, `Canvas`, `Listbox` 같은 클래식 Tk 위젯은 `color`를 사용할 수 있습니다.
 
 ## Trigger와 수동 제어
 
@@ -122,6 +124,7 @@ Event Editor handler 안에서는 해당 export 모드가 제공하는 동일 �
 
 | 버전 | 날짜 | 변경 사항 |
 |---|---|---|
+| v1.3 | 2026-09-14 | v1.8.0 기준으로 `fill`/`grow` preset과 `backOut`/`elasticOut`/`bounceOut` easing을 추가했습니다. |
 | v1.2 | 2026-09-06 | v1.6.0 기준으로 ttk 테마 위젯의 color preset 거부 규칙과 ttkbootstrap 링크를 추가했습니다. |
 | v1.1 | 2026-07-21 | 릴리스 참조를 v1.3.1로 갱신했습니다. |
 | v1.0 | 2026-07-19 | TK-Form v1.3.0 위젯 애니메이션 안내를 작성했습니다. |
